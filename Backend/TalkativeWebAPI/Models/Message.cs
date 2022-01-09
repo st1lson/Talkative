@@ -5,7 +5,7 @@ namespace TalkativeWebAPI.Models
     public class Message
     {
         [Key]
-        public string Id { get; set; }
+        public int Id { get; set; }
 
         [Required]
         public string Text { get; set; }
