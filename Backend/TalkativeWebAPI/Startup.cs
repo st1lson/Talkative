@@ -1,8 +1,10 @@
+using GraphQL.Server.Ui.Voyager;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using TalkativeWebAPI.Data.DbContexts;
+using TalkativeWebAPI.GraphQL;
 
 namespace TalkativeWebAPI
 {
@@ -21,6 +23,10 @@ namespace TalkativeWebAPI
             services.AddDbContext<MessagesDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DatabaseConnectionString")));
 
+            services
+                .AddGraphQLServer()
+                .AddQueryType<Query>();
+
             services.AddControllers();
         }
 
@@ -33,8 +39,14 @@ namespace TalkativeWebAPI
 
             app.UseAuthorization();
 
+            app.UseGraphQLVoyager(new VoyagerOptions()
+            {
+                GraphQLEndPoint = "/graphql"
+            }, "/graphql-voyager");
+
             app.UseEndpoints(endpoints =>
             {
+                endpoints.MapGraphQL();
                 endpoints.MapControllers();
             });
         }
