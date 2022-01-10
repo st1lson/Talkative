@@ -1,9 +1,13 @@
+using System;
+using System.IdentityModel.Tokens.Jwt;
 using GraphQL.Server.Ui.Voyager;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.IdentityModel.Tokens;
 using TalkativeWebAPI.Data.DbContexts;
 using TalkativeWebAPI.GraphQL;
 using TalkativeWebAPI.GraphQL.ApplicationUsers;
@@ -54,6 +58,32 @@ namespace TalkativeWebAPI
 
             services.AddHttpContextAccessor();
 
+            services
+                .AddAuthentication(options =>
+                {
+                    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+                })
+                .AddJwtBearer(options =>
+                {
+                    options.RequireHttpsMetadata = true;
+                    options.SaveToken = true;
+                    options.TokenValidationParameters = new TokenValidationParameters
+                    {
+                        ValidateAudience = false,
+                        ValidateIssuer = false,
+                        ValidateLifetime = true,
+                        ValidateIssuerSigningKey = true,
+                        ClockSkew = TimeSpan.Zero
+                    };
+                });
+
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy("Auth", policy => policy.RequireClaim(JwtRegisteredClaimNames.Typ, "Auth"));
+                options.AddPolicy("Refresh", policy => policy.RequireClaim(JwtRegisteredClaimNames.Typ, "Refresh"));
+            });
+
             services.AddControllers();
 
             services.AddOptions();
@@ -64,6 +94,8 @@ namespace TalkativeWebAPI
             app.UseWebSockets();
 
             app.UseRouting();
+
+            app.UseAuthentication();
 
             app.UseAuthorization();
 

@@ -9,6 +9,7 @@
     <PackageReference Include="HotChocolate.AspNetCore" Version="11.0.8" />
     <PackageReference Include="HotChocolate.Data.EntityFramework" Version="11.0.8" />
     <PackageReference Include="HtmlSanitizer" Version="7.0.473" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="5.0.13" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="5.0.13" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="5.0.13">
       <PrivateAssets>all</PrivateAssets>
