@@ -10,14 +10,16 @@ namespace TalkativeWebAPI.GraphQL
     public class Query
     {
         [UseDbContext(typeof(MessagesDbContext))]
-        [UseProjection]
+        [UseFiltering]
+        [UseSorting]
         public IQueryable<Message> GetMessage([ScopedService] MessagesDbContext context)
         {
             return context.Messages;
         }
 
         [UseDbContext(typeof(MessagesDbContext))]
-        [UseProjection]
+        [UseFiltering]
+        [UseSorting]
         public IQueryable<ApplicationUser> GetUser([Service] IHttpContextAccessor accessor, [ScopedService] MessagesDbContext context)
         {
             string userId = accessor.HttpContext!.User.Claims.First().Value;

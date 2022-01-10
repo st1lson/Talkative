@@ -10,9 +10,8 @@ namespace TalkativeWebAPI.GraphQL.ApplicationUsers
     {
         protected override void Configure(IObjectTypeDescriptor<ApplicationUser> descriptor)
         {
-            descriptor.Description("");
+            descriptor.Description("Represents an application user.");
 
-            base.Configure(descriptor);
             descriptor
                 .Field(u => u.Messages)
                 .ResolveWith<Resolvers>(u => u.GetUsers(default!, default!))

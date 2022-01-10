@@ -7,6 +7,7 @@ using Microsoft.Extensions.DependencyInjection;
 using TalkativeWebAPI.Data.DbContexts;
 using TalkativeWebAPI.GraphQL;
 using TalkativeWebAPI.GraphQL.ApplicationUsers;
+using TalkativeWebAPI.GraphQL.Messages;
 using TalkativeWebAPI.Models;
 
 namespace TalkativeWebAPI
@@ -42,9 +43,12 @@ namespace TalkativeWebAPI
 
             services
                 .AddGraphQLServer()
-                .AddType<ApplicationUserType>()
                 .AddQueryType<Query>()
-                .AddProjections();
+                .AddMutationType<Mutation>()
+                .AddType<ApplicationUserType>()
+                .AddType<MessageType>()
+                .AddFiltering()
+                .AddSorting();
 
             services.AddHttpContextAccessor();
 

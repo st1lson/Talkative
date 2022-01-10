@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using TalkativeWebAPI.Models;
 
@@ -10,10 +11,12 @@ namespace TalkativeWebAPI.Controllers
     public class AuthController : Controller
     {
         private readonly UserManager<ApplicationUser> _userManager;
+        private readonly IHttpContextAccessor _accessor;
 
-        public AuthController(UserManager<ApplicationUser> userManager)
+        public AuthController(UserManager<ApplicationUser> userManager, IHttpContextAccessor accessor)
         {
             _userManager = userManager;
+            _accessor = accessor;
         }
 
         //[Route("register")]
