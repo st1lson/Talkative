@@ -14,7 +14,8 @@ namespace TalkativeWebAPI.GraphQL
     public class Mutation
     {
         [UseDbContext(typeof(MessagesDbContext))]
-        public async Task<AddMessagePayload> AddMessageAsync(AddMessageInput input, [Service] IHttpContextAccessor accessor, 
+        public async Task<AddMessagePayload> AddMessageAsync(AddMessageInput input,
+            [Service] IHttpContextAccessor accessor,
             [ScopedService] MessagesDbContext context)
         {
             HtmlSanitizer sanitizer = new();
@@ -31,6 +32,51 @@ namespace TalkativeWebAPI.GraphQL
             await context.SaveChangesAsync();
 
             return new AddMessagePayload(message);
+        }
+
+        [UseDbContext(typeof(MessagesDbContext))]
+        public async Task<PutMessagePayload> PutMessageAsync(PutMessageInput input,
+            [Service] IHttpContextAccessor accessor,
+            [ScopedService] MessagesDbContext context)
+        {
+            HtmlSanitizer sanitizer = new();
+            PutMessageInput sanitizedInput = new(input.Id, sanitizer.Sanitize(input.Text));
+
+            string userId = accessor.HttpContext!.User.Claims.First().Value;
+
+            Message message = context.Messages.FirstOrDefault(m => m.Id == sanitizedInput.Id);
+
+            if (message is null || message.UserId != userId)
+            {
+                throw new GraphQLException();
+            }
+
+            message.Text = sanitizedInput.Text;
+
+            await context.SaveChangesAsync();
+
+            return new PutMessagePayload(message);
+        }
+
+        [UseDbContext(typeof(MessagesDbContext))]
+        public async Task<DeleteMessagePayload> DeleteMessagePayload(DeleteMessageInput input,
+            [Service] IHttpContextAccessor accessor,
+            [ScopedService] MessagesDbContext context)
+        {
+            string userId = accessor.HttpContext!.User.Claims.First().Value;
+
+            Message message = context.Messages.FirstOrDefault(m => m.Id == input.Id);
+
+            if (message is null || message.UserId != userId)
+            {
+                throw new GraphQLException();
+            }
+
+            context.Messages.Remove(message);
+
+            await context.SaveChangesAsync();
+
+            return new DeleteMessagePayload(message);
         }
     }
 }
