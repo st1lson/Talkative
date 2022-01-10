@@ -6,6 +6,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using TalkativeWebAPI.Data.DbContexts;
 using TalkativeWebAPI.GraphQL;
+using TalkativeWebAPI.GraphQL.ApplicationUsers;
 using TalkativeWebAPI.Models;
 
 namespace TalkativeWebAPI
@@ -19,15 +20,13 @@ namespace TalkativeWebAPI
             Configuration = configuration;
         }
 
-        // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddPooledDbContextFactory<MessagesDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DatabaseConnectionString")));
 
-            services
-                .AddGraphQLServer()
-                .AddQueryType<Query>();
+            services.AddScoped(provider =>
+                provider.GetRequiredService<IDbContextFactory<MessagesDbContext>>().CreateDbContext());
 
             services
                 .AddIdentity<ApplicationUser, IdentityRole>(options =>
@@ -38,16 +37,24 @@ namespace TalkativeWebAPI
                     options.Password.RequireUppercase = true;
                     options.Password.RequiredLength = 6;
                     options.Password.RequiredUniqueChars = 1;
-                });
+                })
+                .AddEntityFrameworkStores<MessagesDbContext>();
+
+            services
+                .AddGraphQLServer()
+                .AddType<ApplicationUserType>()
+                .AddQueryType<Query>()
+                .AddProjections();
+
+            services.AddHttpContextAccessor();
 
             services.AddControllers();
+
+            services.AddOptions();
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app)
         {
-            app.UseHttpsRedirection();
-
             app.UseRouting();
 
             app.UseAuthorization();
