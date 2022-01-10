@@ -1,5 +1,6 @@
-﻿using System.Linq;
-using HotChocolate;
+﻿using HotChocolate;
+using HotChocolate.Data;
+using System.Linq;
 using TalkativeWebAPI.Data.DbContexts;
 using TalkativeWebAPI.Models;
 
@@ -7,7 +8,8 @@ namespace TalkativeWebAPI.GraphQL
 {
     public class Query
     {
-        public IQueryable<Message> GetMessage([Service] MessagesDbContext context)
+        [UseDbContext(typeof(MessagesDbContext))]
+        public IQueryable<Message> GetMessage([ScopedService] MessagesDbContext context)
         {
             return context.Messages;
         }
