@@ -1,8 +1,8 @@
-﻿using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using System.Linq;
+using System.Threading.Tasks;
 using TalkativeWebAPI.Models;
 using TalkativeWebAPI.Models.Auth;
 using SignInResult = Microsoft.AspNetCore.Identity.SignInResult;

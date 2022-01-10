@@ -1,5 +1,3 @@
-using System;
-using System.IdentityModel.Tokens.Jwt;
 using GraphQL.Server.Ui.Voyager;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
@@ -8,6 +6,9 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
+using System;
+using System.IdentityModel.Tokens.Jwt;
+using System.Text;
 using TalkativeWebAPI.Data.DbContexts;
 using TalkativeWebAPI.GraphQL;
 using TalkativeWebAPI.GraphQL.ApplicationUsers;
@@ -28,7 +29,7 @@ namespace TalkativeWebAPI
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddPooledDbContextFactory<MessagesDbContext>(options =>
-                options.UseSqlServer(Configuration.GetConnectionString("DatabaseConnectionString")));
+                options.UseSqlServer(Configuration["DatabaseConnectionString"]));
 
             services.AddScoped(provider =>
                 provider.GetRequiredService<IDbContextFactory<MessagesDbContext>>().CreateDbContext());
@@ -58,6 +59,9 @@ namespace TalkativeWebAPI
 
             services.AddHttpContextAccessor();
 
+            string signingKeyPhrase = Configuration["SigningKeyPhrase"];
+            SymmetricSecurityKey signingKey = new(Encoding.UTF8.GetBytes(signingKeyPhrase));
+
             services
                 .AddAuthentication(options =>
                 {
@@ -70,6 +74,7 @@ namespace TalkativeWebAPI
                     options.SaveToken = true;
                     options.TokenValidationParameters = new TokenValidationParameters
                     {
+                        IssuerSigningKey = signingKey,
                         ValidateAudience = false,
                         ValidateIssuer = false,
                         ValidateLifetime = true,

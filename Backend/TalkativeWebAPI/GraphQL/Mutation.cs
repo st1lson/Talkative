@@ -1,12 +1,12 @@
 ﻿using Ganss.XSS;
 using HotChocolate;
 using HotChocolate.Data;
+using HotChocolate.Subscriptions;
 using Microsoft.AspNetCore.Http;
 using System;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using HotChocolate.Subscriptions;
 using TalkativeWebAPI.Data.DbContexts;
 using TalkativeWebAPI.GraphQL.Messages;
 using TalkativeWebAPI.Models;
