@@ -45,10 +45,12 @@ namespace TalkativeWebAPI
                 .AddGraphQLServer()
                 .AddQueryType<Query>()
                 .AddMutationType<Mutation>()
+                .AddSubscriptionType<Subscription>()
                 .AddType<ApplicationUserType>()
                 .AddType<MessageType>()
                 .AddFiltering()
-                .AddSorting();
+                .AddSorting()
+                .AddInMemorySubscriptions();
 
             services.AddHttpContextAccessor();
 
@@ -59,6 +61,8 @@ namespace TalkativeWebAPI
 
         public void Configure(IApplicationBuilder app)
         {
+            app.UseWebSockets();
+
             app.UseRouting();
 
             app.UseAuthorization();
