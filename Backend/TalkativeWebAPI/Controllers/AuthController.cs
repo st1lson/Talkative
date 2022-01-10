@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using TalkativeWebAPI.Models;
 using TalkativeWebAPI.Models.Auth;
+using TalkativeWebAPI.Services;
 using SignInResult = Microsoft.AspNetCore.Identity.SignInResult;
 
 namespace TalkativeWebAPI.Controllers
@@ -17,12 +18,20 @@ namespace TalkativeWebAPI.Controllers
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly IHttpContextAccessor _accessor;
+        private readonly JwtTokenCreator _tokenCreator;
+        private readonly JwtRefreshTokenHandler _refreshTokenHandler;
 
-        public AuthController(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager, IHttpContextAccessor accessor)
+        public AuthController(UserManager<ApplicationUser> userManager, 
+            SignInManager<ApplicationUser> signInManager, 
+            IHttpContextAccessor accessor,
+            JwtTokenCreator tokenCreator,
+            JwtRefreshTokenHandler refreshTokenHandler)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _accessor = accessor;
+            _tokenCreator = tokenCreator;
+            _refreshTokenHandler = refreshTokenHandler;
         }
 
         [Route("register")]
@@ -46,7 +55,13 @@ namespace TalkativeWebAPI.Controllers
                 return BadRequest();
             }
 
-            return Ok();
+            await _signInManager.SignInAsync(user, false).ConfigureAwait(false);
+
+            var (refreshToken, _) = await _refreshTokenHandler.WriteIfExpiredAsync(user).ConfigureAwait(false);
+
+            var (authToken, _) = _tokenCreator.CreateToken(user);
+
+            return Ok(new LoginPayload(authToken, refreshToken, user.UserName));
         }
 
         [Route("login")]
@@ -68,7 +83,11 @@ namespace TalkativeWebAPI.Controllers
                 return BadRequest();
             }
 
-            return Ok();
+            var (refreshToken, _) = await _refreshTokenHandler.WriteIfExpiredAsync(user).ConfigureAwait(false);
+
+            var (authToken, _) = _tokenCreator.CreateToken(user);
+
+            return Ok(new LoginPayload(authToken, refreshToken, user.UserName));
         }
 
         [Route("logout")]

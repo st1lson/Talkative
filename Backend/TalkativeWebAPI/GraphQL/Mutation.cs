@@ -7,6 +7,7 @@ using System;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using HotChocolate.AspNetCore.Authorization;
 using TalkativeWebAPI.Data.DbContexts;
 using TalkativeWebAPI.GraphQL.Messages;
 using TalkativeWebAPI.Models;
@@ -15,6 +16,7 @@ namespace TalkativeWebAPI.GraphQL
 {
     public class Mutation
     {
+        [Authorize(Policy = "Auth")]
         [UseDbContext(typeof(MessagesDbContext))]
         public async Task<AddMessagePayload> AddMessageAsync(AddMessageInput input,
             [Service] IHttpContextAccessor accessor,
@@ -40,6 +42,7 @@ namespace TalkativeWebAPI.GraphQL
             return new AddMessagePayload(message);
         }
 
+        [Authorize(Policy = "Auth")]
         [UseDbContext(typeof(MessagesDbContext))]
         public async Task<PutMessagePayload> PutMessageAsync(PutMessageInput input,
             [Service] IHttpContextAccessor accessor,
@@ -66,6 +69,7 @@ namespace TalkativeWebAPI.GraphQL
             return new PutMessagePayload(message);
         }
 
+        [Authorize(Policy = "Auth")]
         [UseDbContext(typeof(MessagesDbContext))]
         public async Task<DeleteMessagePayload> DeleteMessageAsync(DeleteMessageInput input,
             [Service] IHttpContextAccessor accessor,

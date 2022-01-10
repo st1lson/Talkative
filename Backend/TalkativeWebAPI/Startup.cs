@@ -35,7 +35,7 @@ namespace TalkativeWebAPI
             services.AddPooledDbContextFactory<MessagesDbContext>(options =>
                 options.UseSqlServer(Configuration["DatabaseConnectionString"]));
 
-            services.AddPooledDbContextFactory<RefreshTokensDbContext>(options => 
+            services.AddDbContextPool<RefreshTokensDbContext>(options => 
                 options.UseSqlServer(Configuration["DatabaseConnectionString"]));
 
             services.AddScoped<JwtTokenCreator>();

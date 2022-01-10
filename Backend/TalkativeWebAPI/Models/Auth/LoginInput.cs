@@ -1,4 +1,8 @@
 ﻿namespace TalkativeWebAPI.Models.Auth
 {
-    public record LoginInput(string UserName, string Password);
+    public class LoginInput
+    {
+        public string UserName { get; set; }
+        public string Password { get; set; }
+    }
 }

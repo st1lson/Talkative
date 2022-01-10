@@ -2,6 +2,7 @@
 using HotChocolate.Data;
 using Microsoft.AspNetCore.Http;
 using System.Linq;
+using HotChocolate.AspNetCore.Authorization;
 using TalkativeWebAPI.Data.DbContexts;
 using TalkativeWebAPI.Models;
 
@@ -9,6 +10,7 @@ namespace TalkativeWebAPI.GraphQL
 {
     public class Query
     {
+        [Authorize(Policy = "Auth")]
         [UseDbContext(typeof(MessagesDbContext))]
         [UseFiltering]
         [UseSorting]
@@ -17,6 +19,7 @@ namespace TalkativeWebAPI.GraphQL
             return context.Messages;
         }
 
+        [Authorize(Policy = "Auth")]
         [UseDbContext(typeof(MessagesDbContext))]
         [UseFiltering]
         [UseSorting]
