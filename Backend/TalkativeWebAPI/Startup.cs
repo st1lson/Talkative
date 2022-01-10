@@ -9,27 +9,38 @@ using Microsoft.IdentityModel.Tokens;
 using System;
 using System.IdentityModel.Tokens.Jwt;
 using System.Text;
+using Microsoft.AspNetCore.Hosting;
 using TalkativeWebAPI.Data.DbContexts;
 using TalkativeWebAPI.GraphQL;
 using TalkativeWebAPI.GraphQL.ApplicationUsers;
 using TalkativeWebAPI.GraphQL.Messages;
 using TalkativeWebAPI.Models;
+using TalkativeWebAPI.Services;
 
 namespace TalkativeWebAPI
 {
     public class Startup
     {
-        public IConfiguration Configuration { get; }
+        public IConfiguration Configuration { get; set; }
+        public IWebHostEnvironment Environment { get; set; }
 
-        public Startup(IConfiguration configuration)
+        public Startup(IConfiguration configuration, IWebHostEnvironment environment)
         {
             Configuration = configuration;
+            Environment = environment;
         }
 
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddPooledDbContextFactory<MessagesDbContext>(options =>
                 options.UseSqlServer(Configuration["DatabaseConnectionString"]));
+
+            services.AddPooledDbContextFactory<RefreshTokensDbContext>(options => 
+                options.UseSqlServer(Configuration["DatabaseConnectionString"]));
+
+            services.AddScoped<JwtTokenCreator>();
+
+            services.AddScoped<JwtRefreshTokenHandler>();
 
             services.AddScoped(provider =>
                 provider.GetRequiredService<IDbContextFactory<MessagesDbContext>>().CreateDbContext());
@@ -45,19 +56,6 @@ namespace TalkativeWebAPI
                     options.Password.RequiredUniqueChars = 1;
                 })
                 .AddEntityFrameworkStores<MessagesDbContext>();
-
-            services
-                .AddGraphQLServer()
-                .AddQueryType<Query>()
-                .AddMutationType<Mutation>()
-                .AddSubscriptionType<Subscription>()
-                .AddType<ApplicationUserType>()
-                .AddType<MessageType>()
-                .AddFiltering()
-                .AddSorting()
-                .AddInMemorySubscriptions();
-
-            services.AddHttpContextAccessor();
 
             string signingKeyPhrase = Configuration["SigningKeyPhrase"];
             SymmetricSecurityKey signingKey = new(Encoding.UTF8.GetBytes(signingKeyPhrase));
@@ -89,7 +87,20 @@ namespace TalkativeWebAPI
                 options.AddPolicy("Refresh", policy => policy.RequireClaim(JwtRegisteredClaimNames.Typ, "Refresh"));
             });
 
+            services.AddHttpContextAccessor();
+
             services.AddControllers();
+
+            services
+                .AddGraphQLServer()
+                .AddQueryType<Query>()
+                .AddMutationType<Mutation>()
+                .AddSubscriptionType<Subscription>()
+                .AddType<ApplicationUserType>()
+                .AddType<MessageType>()
+                .AddFiltering()
+                .AddSorting()
+                .AddAuthorization();
 
             services.AddOptions();
         }
