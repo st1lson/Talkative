@@ -32,6 +32,15 @@ namespace TalkativeWebAPI
 
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddCors(options =>
+            {
+                options.AddPolicy("dev",
+                    builder => builder
+                        .WithOrigins(@"http://localhost:3000")
+                        .AllowAnyHeader()
+                        .AllowAnyMethod());
+            });
+
             services.AddPooledDbContextFactory<MessagesDbContext>(options =>
                 options.UseSqlServer(Configuration["DatabaseConnectionString"]));
 
@@ -107,6 +116,8 @@ namespace TalkativeWebAPI
 
         public void Configure(IApplicationBuilder app)
         {
+            app.UseCors("dev");
+
             app.UseWebSockets();
 
             app.UseRouting();

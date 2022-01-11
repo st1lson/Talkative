@@ -36,6 +36,7 @@
             "after",
             { "overrides": { "?": "before", ":": "before" } }
         ],
-        "arrow-body-style": 0
+        "arrow-body-style": 0,
+        "consistent-return": 0
     }
 }

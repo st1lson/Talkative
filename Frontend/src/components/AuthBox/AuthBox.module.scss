@@ -1,0 +1,60 @@
+@import '../../global/scss/global.module.scss';
+
+.Wrapper {
+    color: $font-color;
+    padding: 1rem;
+    border: 4px solid $second-color;
+    border-radius: 10px;
+    background-color: $another-user-color;
+    margin: 7rem auto 1rem;
+    width: 40%;
+
+    button {
+        color: $font-color;
+        text-align: center;
+        margin: 2rem auto 1rem;
+        font-size: 1.2rem;
+        height: 3.5rem;
+        width: 50%;
+        line-height: 2.5rem;
+        border: 3px solid darken($second-color, 30%);
+        border-radius: 10px;
+        background: $second-color;
+        cursor: pointer;
+
+        &:hover {
+            border: 3px solid darken($second-color, 35%);
+            background: darken($second-color, 8%);
+            transition: all 0.3s ease;
+        }
+
+        &:disabled {
+            background: darken($second-color, 25%);
+            border: 3px solid darken($second-color, 40%);
+        }
+    }
+}
+
+@media (max-width: 75rem) {
+    .Wrapper {
+        width: 60%;
+    }
+}
+
+@media (max-width: 62.5rem) {
+    .Wrapper {
+        width: 70%;
+    }
+}
+
+@media (max-width: 50rem) {
+    .Wrapper {
+        width: 80%;
+    }
+}
+
+@media (max-width: 43.75rem) {
+    .Wrapper {
+        width: 100%;
+    }
+}

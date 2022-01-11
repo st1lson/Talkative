@@ -1,6 +1,6 @@
 import day from 'dayjs';
-import JwtDecode from 'jwt-decode';
-import lsAdapter from "./IsAdapter";
+import jwtDecode from 'jwt-decode';
+import lsAdapter from './lsAdapter.js';
 
 const authToken = {
     get() {
@@ -9,8 +9,8 @@ const authToken = {
         let decodedToken;
 
         try {
-            decodedToken = JwtDecode(token);
-        } catch {
+            decodedToken = jwtDecode(token);
+        } catch (e) {
             return null;
         }
 
@@ -42,8 +42,8 @@ const authToken = {
 
         const expires = day.unix(exp);
 
-        return day().isBefore(day(expires))
-    }
+        return day().isBefore(day(expires));
+    },
 };
 
 export default authToken;

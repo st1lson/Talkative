@@ -1,27 +1,24 @@
-import lsAdapter from "./IsAdapter"
+import lsAdapter from './lsAdapter';
 
 const credentials = {
     get() {
         const username = lsAdapter.get('username');
-        const email = lsAdapter.get('email');
 
-        if (!username || !email) {
+        if (!username) {
             return null;
         }
 
-        return { username, email };
+        return { username };
     },
-    set(username, email) {
+    set(username) {
         lsAdapter.set('username', username);
-        lsAdapter.set('email', email);
     },
     remove() {
         lsAdapter.remove('username');
-        lsAdapter.remove('email');
     },
     exists() {
         return !!this.get();
-    }
+    },
 };
 
 export default credentials;
