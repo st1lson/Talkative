@@ -1,7 +1,8 @@
-import { Component } from 'react';
+import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 import AuthBox from '../../../components/AuthBox/AuthBox';
 import Button from '../../../components/Button/Button';
-import { Input } from '../../../components/Input/Input';
+import Input from '../../../components/Input/Input';
 import authToken from '../../../global/js/authToken';
 import axiosRESTInstance from '../../../global/js/axiosRESTInstance';
 import credentials from '../../../global/js/credentials';
@@ -28,13 +29,12 @@ export default class Login extends Component {
             .then(res => {
                 const { jwtToken, username } = res.data;
 
-                this.setState({ isLoading: false });
-
                 credentials.set(username);
                 authToken.set(jwtToken);
 
                 onLogin();
-            });
+            })
+            .finally(() => this.setState({ isLoading: false }));
     };
 
     onInputChange = e => {
@@ -65,6 +65,15 @@ export default class Login extends Component {
                     onChange={this.onInputChange}
                 />
                 <Button onClick={this.onLoginClick}>Login</Button>
+                <div className="ToRegister">
+                    <Link
+                        to="/register"
+                        style={{
+                            color: '#000',
+                        }}>
+                            Create new account
+                    </Link>
+                </div>
             </AuthBox>
         );
     }
