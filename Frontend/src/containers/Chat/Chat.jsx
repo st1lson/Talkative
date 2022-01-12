@@ -2,37 +2,79 @@ import React, { PureComponent } from 'react';
 import credentials from '../../global/js/credentials';
 import ChatBox from '../../components/ChatBox/ChatBox';
 import classes from './Chat.module.scss';
+import axiosGQLInstance from '../../global/js/axiosGQLInstance';
+import graphql from '../../global/js/graphql';
+import InputMessage from '../../components/InputMessage/InputMessage';
 
 export default class Chat extends PureComponent {
     constructor(props) {
         super(props);
         this.state = {
-            messages: [{ username: '1' }, { username: '2' }, { username: '3' }],
+            messages: [],
             username: credentials.get().username,
+            isLoading: false,
         };
     }
+
+    componentDidMount() {
+        this.getMessages();
+    }
+
+    getMessages() {
+        let { messages } = this.state;
+
+        this.setState({ isLoading: true });
+
+        axiosGQLInstance
+            .post('', { query: graphql.getMessages })
+            .then(res => {
+                messages = res.data.data.message;
+                console.log(messages);
+                this.setState({ messages });
+            })
+            .catch(err => {
+                console.log(err);
+            })
+            .finally(() => this.setState({ isLoading: false }));
+    }
+
+    onInputChange = e => {
+        const { name, value } = e.target;
+
+        this.setState({
+            [name]: value,
+        });
+    };
 
     render() {
         const { messages, username } = this.state;
 
         return (
-            <div className={classes.MessagesContainer}>
-                {messages.map(m => {
-                    let user = 'another-user';
-                    if (m.username === username) {
-                        user = 'user';
-                    }
+            <>
+                <div className={classes.MessagesContainer}>
+                    {messages.map(m => {
+                        let user = 'another-user';
+                        if (m.userName === username) {
+                            user = 'user';
+                        }
 
-                    return (
-                        <ChatBox
-                            user={user}
-                            message="Hello world"
-                            time="2022-01-01"
-                            username="Eternity"
-                        />
-                    );
-                })}
-            </div>
+                        return (
+                            <ChatBox
+                                user={user}
+                                key={m.id}
+                                message={m.text}
+                                time={m.date}
+                                username={m.userName}
+                            />
+                        );
+                    })}
+                </div>
+                <InputMessage
+                    placeholder="Input here your message"
+                    name="inputMessage"
+                    onChange={this.onInputChange}
+                />
+            </>
         );
     }
 }

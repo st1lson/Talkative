@@ -2,7 +2,7 @@ import axios from 'axios';
 import authToken from './authToken';
 
 const axiosGQLInstance = axios.create({
-    baseURL: 'https://localhost:5001/grapthql',
+    baseURL: 'https://localhost:5001/graphql',
 });
 
 axiosGQLInstance.interceptors.request.use(req => {
