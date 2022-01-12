@@ -1,4 +1,5 @@
 import React, { PureComponent } from 'react';
+import credentials from '../../global/js/credentials';
 import ChatBox from '../../components/ChatBox/ChatBox';
 import classes from './Chat.module.scss';
 
@@ -7,7 +8,7 @@ export default class Chat extends PureComponent {
         super(props);
         this.state = {
             messages: [{ username: '1' }, { username: '2' }, { username: '3' }],
-            username: '1',
+            username: credentials.get().username,
         };
     }
 

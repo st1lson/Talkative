@@ -27,9 +27,9 @@ export default class Login extends Component {
         axiosRESTInstance
             .post('/auth/login', { username, password })
             .then(res => {
-                const { jwtToken, username } = res.data;
+                const { jwtToken, userName } = res.data;
 
-                credentials.set(username);
+                credentials.set(userName);
                 authToken.set(jwtToken);
 
                 onLogin();

@@ -1,5 +1,17 @@
 @import '../../global/scss/global.module.scss';
 
 .CustomButton {
-    max-width: 10rem;
+    min-width: 7rem;
+    min-height: 3rem;
+    background-color: $date-font-color;
+    border: 1px solid $font-color;
+    border-radius: 5px;
+
+    &:hover {
+        background-color: rgba($date-font-color, 0.92);
+    }
+
+    &:disabled {
+        background-color: rgba($date-font-color, 0.92);
+    }
 }
