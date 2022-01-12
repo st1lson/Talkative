@@ -71,7 +71,7 @@ export default class Login extends Component {
                         style={{
                             color: '#000',
                         }}>
-                            Create new account
+                        Create new account
                     </Link>
                 </div>
             </AuthBox>

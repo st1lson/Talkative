@@ -89,7 +89,7 @@ export default class Register extends Component {
                         style={{
                             color: '#000',
                         }}>
-                            I already have an account
+                        I already have an account
                     </Link>
                 </div>
             </AuthBox>

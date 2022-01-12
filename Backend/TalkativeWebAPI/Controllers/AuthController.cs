@@ -17,19 +17,17 @@ namespace TalkativeWebAPI.Controllers
     {
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
-        private readonly IHttpContextAccessor _accessor;
         private readonly JwtTokenCreator _tokenCreator;
         private readonly JwtRefreshTokenHandler _refreshTokenHandler;
 
-        public AuthController(UserManager<ApplicationUser> userManager, 
-            SignInManager<ApplicationUser> signInManager, 
+        public AuthController(UserManager<ApplicationUser> userManager,
+            SignInManager<ApplicationUser> signInManager,
             IHttpContextAccessor accessor,
             JwtTokenCreator tokenCreator,
             JwtRefreshTokenHandler refreshTokenHandler)
         {
             _userManager = userManager;
             _signInManager = signInManager;
-            _accessor = accessor;
             _tokenCreator = tokenCreator;
             _refreshTokenHandler = refreshTokenHandler;
         }

@@ -1,6 +1,7 @@
 using GraphQL.Server.Ui.Voyager;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -9,7 +10,6 @@ using Microsoft.IdentityModel.Tokens;
 using System;
 using System.IdentityModel.Tokens.Jwt;
 using System.Text;
-using Microsoft.AspNetCore.Hosting;
 using TalkativeWebAPI.Data.DbContexts;
 using TalkativeWebAPI.GraphQL;
 using TalkativeWebAPI.GraphQL.ApplicationUsers;
@@ -44,7 +44,7 @@ namespace TalkativeWebAPI
             services.AddPooledDbContextFactory<MessagesDbContext>(options =>
                 options.UseSqlServer(Configuration["DatabaseConnectionString"]));
 
-            services.AddDbContextPool<RefreshTokensDbContext>(options => 
+            services.AddDbContextPool<RefreshTokensDbContext>(options =>
                 options.UseSqlServer(Configuration["DatabaseConnectionString"]));
 
             services.AddScoped<JwtTokenCreator>();

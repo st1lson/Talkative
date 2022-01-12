@@ -1,5 +1,6 @@
 ﻿using Ganss.XSS;
 using HotChocolate;
+using HotChocolate.AspNetCore.Authorization;
 using HotChocolate.Data;
 using HotChocolate.Subscriptions;
 using Microsoft.AspNetCore.Http;
@@ -7,7 +8,6 @@ using System;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using HotChocolate.AspNetCore.Authorization;
 using TalkativeWebAPI.Data.DbContexts;
 using TalkativeWebAPI.GraphQL.Messages;
 using TalkativeWebAPI.Models;
@@ -20,9 +20,9 @@ namespace TalkativeWebAPI.GraphQL
         [UseDbContext(typeof(MessagesDbContext))]
         public async Task<AddMessagePayload> AddMessageAsync(AddMessageInput input,
             [Service] IHttpContextAccessor accessor,
-            [ScopedService] MessagesDbContext context,
-            [Service] ITopicEventSender eventSender,
-            CancellationToken cancellationToken)
+            [ScopedService] MessagesDbContext context)
+            //[Service] ITopicEventSender eventSender,
+            //CancellationToken cancellationToken)
         {
             HtmlSanitizer sanitizer = new();
             string userId = accessor.HttpContext!.User.Claims.First().Value;
@@ -35,9 +35,9 @@ namespace TalkativeWebAPI.GraphQL
             };
 
             context.Messages.Add(message);
-            await context.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
+            await context.SaveChangesAsync().ConfigureAwait(false);
 
-            await eventSender.SendAsync(nameof(Subscription.OnMessagesChange), message, cancellationToken);
+            //await eventSender.SendAsync(nameof(Subscription.OnMessagesChange), message, cancellationToken);
 
             return new AddMessagePayload(message);
         }
@@ -46,9 +46,9 @@ namespace TalkativeWebAPI.GraphQL
         [UseDbContext(typeof(MessagesDbContext))]
         public async Task<PutMessagePayload> PutMessageAsync(PutMessageInput input,
             [Service] IHttpContextAccessor accessor,
-            [ScopedService] MessagesDbContext context,
-            [Service] ITopicEventSender eventSender,
-            CancellationToken cancellationToken)
+            [ScopedService] MessagesDbContext context)
+            //[Service] ITopicEventSender eventSender,
+            //CancellationToken cancellationToken)
         {
             HtmlSanitizer sanitizer = new();
             PutMessageInput sanitizedInput = new(input.Id, sanitizer.Sanitize(input.Text));
@@ -64,7 +64,7 @@ namespace TalkativeWebAPI.GraphQL
 
             message.Text = sanitizedInput.Text;
 
-            await context.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
+            //await context.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
 
             return new PutMessagePayload(message);
         }
@@ -73,9 +73,9 @@ namespace TalkativeWebAPI.GraphQL
         [UseDbContext(typeof(MessagesDbContext))]
         public async Task<DeleteMessagePayload> DeleteMessageAsync(DeleteMessageInput input,
             [Service] IHttpContextAccessor accessor,
-            [ScopedService] MessagesDbContext context,
-            [Service] ITopicEventSender eventSender,
-            CancellationToken cancellationToken)
+            [ScopedService] MessagesDbContext context)
+            //[Service] ITopicEventSender eventSender,
+            //CancellationToken cancellationToken)
         {
             string userId = accessor.HttpContext!.User.Claims.First().Value;
 
@@ -88,7 +88,7 @@ namespace TalkativeWebAPI.GraphQL
 
             context.Messages.Remove(message);
 
-            await context.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
+            await context.SaveChangesAsync().ConfigureAwait(false);
 
             return new DeleteMessagePayload(message);
         }

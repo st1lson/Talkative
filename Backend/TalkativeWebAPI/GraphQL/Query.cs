@@ -1,9 +1,10 @@
 ﻿using HotChocolate;
+using HotChocolate.AspNetCore.Authorization;
 using HotChocolate.Data;
 using Microsoft.AspNetCore.Http;
 using System.Linq;
-using HotChocolate.AspNetCore.Authorization;
 using TalkativeWebAPI.Data.DbContexts;
+using TalkativeWebAPI.Dtos;
 using TalkativeWebAPI.Models;
 
 namespace TalkativeWebAPI.GraphQL
@@ -14,9 +15,19 @@ namespace TalkativeWebAPI.GraphQL
         [UseDbContext(typeof(MessagesDbContext))]
         [UseFiltering]
         [UseSorting]
-        public IQueryable<Message> GetMessage([ScopedService] MessagesDbContext context)
+        public IQueryable<MessageDto> GetMessage([Service] IHttpContextAccessor accessor, [ScopedService] MessagesDbContext context)
         {
-            return context.Messages;
+            string userId = accessor.HttpContext!.User.Claims.First().Value;
+            string userName = context.Users.FirstOrDefault(u => u.Id == userId)?.UserName;
+            IQueryable<MessageDto> messages = context.Messages.Select(contextMessage => new MessageDto
+            {
+                Id = contextMessage.Id,
+                Text = contextMessage.Text,
+                Date = contextMessage.Date,
+                UserName = userName
+            });
+
+            return messages;
         }
 
         [Authorize(Policy = "Auth")]

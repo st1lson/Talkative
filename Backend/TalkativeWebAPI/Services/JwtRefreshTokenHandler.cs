@@ -1,6 +1,6 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
 using TalkativeWebAPI.Data.DbContexts;
 using TalkativeWebAPI.Models;
 

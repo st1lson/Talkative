@@ -6,19 +6,19 @@ export default class Chat extends PureComponent {
     constructor(props) {
         super(props);
         this.state = {
-            messages: [{ userId: '1' }, { userId: '2' }, { userId: '3' }],
-            userId: '1',
+            messages: [{ username: '1' }, { username: '2' }, { username: '3' }],
+            username: '1',
         };
     }
 
     render() {
-        const { messages, userId } = this.state;
+        const { messages, username } = this.state;
 
         return (
             <div className={classes.MessagesContainer}>
                 {messages.map(m => {
                     let user = 'another-user';
-                    if (m.userId === userId) {
+                    if (m.username === username) {
                         user = 'user';
                     }
 
