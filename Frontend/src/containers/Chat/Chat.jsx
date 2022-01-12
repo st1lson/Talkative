@@ -26,10 +26,10 @@ export default class Chat extends PureComponent {
         this.setState({ isLoading: true });
 
         axiosGQLInstance
-            .post('', { query: graphql.getMessages })
+            .post('/', { query: graphql.getMessages })
             .then(res => {
                 messages = res.data.data.message;
-                console.log(messages);
+
                 this.setState({ messages });
             })
             .catch(err => {
@@ -37,6 +37,22 @@ export default class Chat extends PureComponent {
             })
             .finally(() => this.setState({ isLoading: false }));
     }
+
+    createMessage = () => {
+        const { newMessage } = this.state;
+
+        this.setState({ isLoading: true });
+
+        axiosGQLInstance
+            .post('/', { query: graphql.addMessage(newMessage) })
+            .then(res => {
+                console.log(newMessage);
+            })
+            .catch(err => {
+                console.log(err);
+            })
+            .finally(() => this.setState({ newMessage: '', isLoading: false }));
+    };
 
     onInputChange = e => {
         const { name, value } = e.target;
@@ -71,8 +87,9 @@ export default class Chat extends PureComponent {
                 </div>
                 <InputMessage
                     placeholder="Input here your message"
-                    name="inputMessage"
+                    name="newMessage"
                     onChange={this.onInputChange}
+                    onClick={this.createMessage}
                 />
             </>
         );
