@@ -109,6 +109,7 @@ namespace TalkativeWebAPI
                 .AddType<MessageType>()
                 .AddFiltering()
                 .AddSorting()
+                .AddInMemorySubscriptions()
                 .AddAuthorization();
 
             services.AddOptions();

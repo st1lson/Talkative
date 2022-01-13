@@ -1,6 +1,6 @@
-﻿using TalkativeWebAPI.Models;
+﻿using TalkativeWebAPI.Dtos;
 
 namespace TalkativeWebAPI.GraphQL.Messages
 {
-    public record DeleteMessagePayload(Message Message);
+    public record DeleteMessagePayload(MessageDto Message);
 }

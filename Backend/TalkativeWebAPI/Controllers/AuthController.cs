@@ -1,6 +1,6 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Linq;
 using System.Threading.Tasks;
 using TalkativeWebAPI.Models;
@@ -22,7 +22,6 @@ namespace TalkativeWebAPI.Controllers
 
         public AuthController(UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager,
-            IHttpContextAccessor accessor,
             JwtTokenCreator tokenCreator,
             JwtRefreshTokenHandler refreshTokenHandler)
         {
@@ -91,7 +90,14 @@ namespace TalkativeWebAPI.Controllers
         [Route("logout")]
         public async Task<IActionResult> Logout()
         {
-            await _signInManager.SignOutAsync().ConfigureAwait(false);
+            try
+            {
+                await _signInManager.SignOutAsync().ConfigureAwait(false);
+            }
+            catch (Exception e)
+            {
+                return BadRequest();
+            }
 
             return Ok();
         }

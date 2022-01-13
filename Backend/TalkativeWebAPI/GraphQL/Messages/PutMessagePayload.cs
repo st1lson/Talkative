@@ -1,6 +1,6 @@
-﻿using TalkativeWebAPI.Models;
+﻿using TalkativeWebAPI.Dtos;
 
 namespace TalkativeWebAPI.GraphQL.Messages
 {
-    public record PutMessagePayload(Message Message);
+    public record PutMessagePayload(MessageDto Message);
 }

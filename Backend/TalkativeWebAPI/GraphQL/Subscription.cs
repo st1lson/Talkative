@@ -1,16 +1,30 @@
 ﻿using HotChocolate;
+using HotChocolate.Execution;
+using HotChocolate.Subscriptions;
 using HotChocolate.Types;
-using TalkativeWebAPI.Models;
+using System.Threading;
+using System.Threading.Tasks;
+using TalkativeWebAPI.Dtos;
+using TalkativeWebAPI.GraphQL.Messages;
 
 namespace TalkativeWebAPI.GraphQL
 {
     public class Subscription
     {
-        [Subscribe]
+        [Subscribe(With = nameof(SubscribeToMessagesChangeAsync))]
         [Topic]
-        public Message OnMessagesChange([EventMessage] Message message)
+        public OnMessagesChange OnMessagesChange(string jwtToken,
+            [EventMessage] OnMessagesChange messages)
         {
-            return message;
+            return messages;
+        }
+
+        public async ValueTask<ISourceStream<OnMessagesChange>> SubscribeToMessagesChangeAsync(
+            string jwtToken,
+            [Service] ITopicEventReceiver eventReceiver,
+            CancellationToken cancellationToken)
+        {
+            return await eventReceiver.SubscribeAsync<string, OnMessagesChange>("OnMessagesChange_" + jwtToken, cancellationToken).ConfigureAwait(false);
         }
     }
 }

@@ -9,8 +9,10 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using TalkativeWebAPI.Data.DbContexts;
+using TalkativeWebAPI.Dtos;
 using TalkativeWebAPI.GraphQL.Messages;
 using TalkativeWebAPI.Models;
+using TalkativeWebAPI.Services;
 
 namespace TalkativeWebAPI.GraphQL
 {
@@ -26,6 +28,7 @@ namespace TalkativeWebAPI.GraphQL
         {
             HtmlSanitizer sanitizer = new();
             string userId = accessor.HttpContext!.User.Claims.First().Value;
+            string userName = context.Users.FirstOrDefault(u => u.Id == userId)?.UserName;
 
             Message message = new()
             {
@@ -37,9 +40,18 @@ namespace TalkativeWebAPI.GraphQL
             context.Messages.Add(message);
             await context.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
 
-            await eventSender.SendAsync(nameof(Subscription.OnMessagesChange), message, cancellationToken);
+            MessageDto messageDto = new()
+            {
+                Id = message.Id,
+                Text = message.Text,
+                Date = message.Date,
+                UserName = userName
+            };
 
-            return new AddMessagePayload(message);
+            await SubscriptionHandler.SubscribeAsync(context, accessor,
+                eventSender, cancellationToken).ConfigureAwait(false);
+
+            return new AddMessagePayload(messageDto);
         }
 
         [Authorize(Policy = "Auth")]
@@ -54,6 +66,7 @@ namespace TalkativeWebAPI.GraphQL
             PutMessageInput sanitizedInput = new(input.Id, sanitizer.Sanitize(input.Text));
 
             string userId = accessor.HttpContext!.User.Claims.First().Value;
+            string userName = context.Users.FirstOrDefault(u => u.Id == userId)?.UserName;
 
             Message message = context.Messages.FirstOrDefault(m => m.Id == sanitizedInput.Id);
 
@@ -66,7 +79,18 @@ namespace TalkativeWebAPI.GraphQL
 
             await context.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
 
-            return new PutMessagePayload(message);
+            MessageDto messageDto = new()
+            {
+                Id = message.Id,
+                Text = message.Text,
+                Date = message.Date,
+                UserName = userName
+            };
+
+            await SubscriptionHandler.SubscribeAsync(context, accessor,
+                eventSender, cancellationToken).ConfigureAwait(false);
+
+            return new PutMessagePayload(messageDto);
         }
 
         [Authorize(Policy = "Auth")]
@@ -78,6 +102,7 @@ namespace TalkativeWebAPI.GraphQL
             CancellationToken cancellationToken)
         {
             string userId = accessor.HttpContext!.User.Claims.First().Value;
+            string userName = context.Users.FirstOrDefault(u => u.Id == userId)?.UserName;
 
             Message message = context.Messages.FirstOrDefault(m => m.Id == input.Id);
 
@@ -90,7 +115,18 @@ namespace TalkativeWebAPI.GraphQL
 
             await context.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
 
-            return new DeleteMessagePayload(message);
+            MessageDto messageDto = new()
+            {
+                Id = message.Id,
+                Text = message.Text,
+                Date = message.Date,
+                UserName = userName
+            };
+
+            await SubscriptionHandler.SubscribeAsync(context, accessor,
+                eventSender, cancellationToken).ConfigureAwait(false);
+
+            return new DeleteMessagePayload(messageDto);
         }
     }
 }

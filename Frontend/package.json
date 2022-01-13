@@ -57,11 +57,14 @@
         "eslint-plugin-sonarjs": "^0.11.0",
         "graphql": "^15.7.2",
         "husky": "^7.0.4",
+        "postcss-loader": "^6.1.1",
+        "postcss-scss": "^4.0.1",
         "prettier": "^2.5.0",
         "stylelint": "^14.1.0",
         "stylelint-config-prettier": "^9.0.3",
         "stylelint-config-recommended": "^6.0.0",
         "stylelint-config-sass-guidelines": "^9.0.1",
-        "stylelint-declaration-use-variable": "^1.7.3"
+        "stylelint-declaration-use-variable": "^1.7.3",
+        "subscriptions-transport-ws": "^0.11.0"
     }
 }

@@ -1,3 +1,5 @@
+import authToken from './authToken';
+
 const graphql = {
     getMessages: `
     query {
@@ -45,6 +47,18 @@ const graphql = {
                 id
                 text
                 date
+            }
+        }
+    }`,
+    onMessagesChangeSubscription: () => `
+    subscription {
+        onMessagesChange(jwtToken: "${authToken.get().token}")
+        {
+            messages {
+                id
+                text
+                date
+                userName
             }
         }
     }`,
