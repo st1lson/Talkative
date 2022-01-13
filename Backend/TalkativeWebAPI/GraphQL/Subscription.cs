@@ -4,7 +4,6 @@ using HotChocolate.Subscriptions;
 using HotChocolate.Types;
 using System.Threading;
 using System.Threading.Tasks;
-using TalkativeWebAPI.Dtos;
 using TalkativeWebAPI.GraphQL.Messages;
 
 namespace TalkativeWebAPI.GraphQL
