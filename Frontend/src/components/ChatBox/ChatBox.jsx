@@ -14,7 +14,7 @@ const ChatBox = props => {
                 <span>{message}</span>
             </div>
             <div className={classes.DateContainer}>
-                <span>{dayjs(time).format('YYYY-MM-DD h:m')}</span>
+                <span>{dayjs(time).format('YYYY-MM-DD hh:mm')}</span>
             </div>
         </div>
     );

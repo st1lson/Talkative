@@ -1,6 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
-import Button from '../../components/Button/Button';
+import NavBar from '../../components/NavBar/NavBar';
 import authToken from '../../global/js/authToken';
 import axiosRESTInstance from '../../global/js/axiosRESTInstance';
 import credentials from '../../global/js/credentials';
@@ -11,35 +10,16 @@ const Layout = props => {
 
     const handleLogout = () => {
         const { onLogout } = props;
-        axiosRESTInstance.post('auth/logout').then(res => {
+        axiosRESTInstance.post('auth/logout').then(() => {
             authToken.remove();
             credentials.remove();
             onLogout();
         });
     };
 
-    const isAuthenticated = authToken.valid();
-
-    const logout = isAuthenticated ? (
-        <div className={classes.Logout}>
-            <Button>
-                <Link
-                    to="/auth"
-                    onClick={handleLogout}
-                    style={{
-                        color: '#fff',
-                        fontSize: '1.33rem',
-                        textDecoration: 'none',
-                    }}>
-                    Logout
-                </Link>
-            </Button>
-        </div>
-    ) : null;
-
     return (
         <div className={classes.Wrapper}>
-            {logout}
+            <NavBar onLogout={handleLogout} />
             <main>{children}</main>
         </div>
     );

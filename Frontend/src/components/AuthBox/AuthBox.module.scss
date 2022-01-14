@@ -19,17 +19,17 @@
         line-height: 2.5rem;
         border: 3px solid darken($second-color, 30%);
         border-radius: 10px;
-        background: $second-color;
+        background: $main-color;
         cursor: pointer;
 
         &:hover {
             border: 3px solid darken($second-color, 35%);
-            background: darken($second-color, 8%);
+            background: darken($main-color, 8%);
             transition: all 0.3s ease;
         }
 
         &:disabled {
-            background: darken($second-color, 25%);
+            background: darken($main-color, 25%);
             border: 3px solid darken($second-color, 40%);
         }
     }
