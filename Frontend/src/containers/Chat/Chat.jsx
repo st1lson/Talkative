@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
     ApolloClient,
     ApolloProvider,
@@ -33,10 +33,14 @@ const httpLink = createHttpLink({
 
 const authLink = setContext((_, { headers }) => {
     const { token } = authToken.get();
+    if (!token) {
+        return;
+    }
+
     return {
         headers: {
             ...headers,
-            authorization: token ? `Bearer ${token}` : '',
+            authorization: `Bearer ${token}`,
         },
     };
 });
@@ -62,7 +66,7 @@ const subscriptions = gql`
 const Chat = () => {
     const [state, setState] = useState({
         messages: [],
-        username: credentials.get().username,
+        username: credentials.get()?.username,
         isLoading: false,
     });
 
@@ -75,23 +79,22 @@ const Chat = () => {
         }));
     }
 
-    const getMessages = () => {
-        let { messages } = state;
-
+    useEffect(() => {
         setState(prev => ({ ...prev, isLoading: true }));
 
         axiosGQLInstance
             .post('/', { query: graphql.getMessages })
             .then(res => {
-                messages = res.data.data.message;
-
-                setState(prev => ({ ...prev, messages }));
+                setState(prev => ({
+                    ...prev,
+                    messages: res.data.data.message,
+                }));
             })
             .catch(err => {
                 console.log(err);
             })
             .finally(() => setState(prev => ({ ...prev, isLoading: false })));
-    };
+    }, []);
 
     const createMessage = () => {
         const { newMessage } = state;
@@ -100,9 +103,6 @@ const Chat = () => {
 
         axiosGQLInstance
             .post('/', { query: graphql.addMessage(newMessage) })
-            .then(res => {
-                console.log(res.data);
-            })
             .catch(err => {
                 console.log(err);
             })
@@ -119,28 +119,27 @@ const Chat = () => {
     };
 
     const { messages, username } = state;
-    console.log(messages);
 
     return (
         <>
             <div className={classes.MessagesContainer}>
                 {messages.length
                     ? messages.map(m => {
-                          let user = 'another-user';
-                          if (m.userName === username) {
-                              user = 'user';
-                          }
+                        let user = 'another-user';
+                        if (m.userName === username) {
+                            user = 'user';
+                        }
 
-                          return (
-                              <ChatBox
-                                  user={user}
-                                  key={m.id}
-                                  message={m.text}
-                                  time={m.date}
-                                  username={m.userName}
-                              />
-                          );
-                      })
+                        return (
+                            <ChatBox
+                                user={user}
+                                key={m.id}
+                                message={m.text}
+                                time={m.date}
+                                username={m.userName}
+                            />
+                        );
+                    })
                     : null}
             </div>
             <InputMessage

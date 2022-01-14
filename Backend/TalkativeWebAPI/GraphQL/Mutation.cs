@@ -134,15 +134,12 @@ namespace TalkativeWebAPI.GraphQL
             ITopicEventSender eventSender,
             CancellationToken cancellationToken)
         {
-            string userId = accessor.HttpContext?.User.Claims.First().Value;
-            string userName = context.Users.FirstOrDefault(u => u.Id == userId)!.UserName;
-
             IEnumerable<MessageDto> messages = context.Messages.Select(contextMessage => new MessageDto
             {
                 Id = contextMessage.Id,
                 Text = contextMessage.Text,
                 Date = contextMessage.Date,
-                UserName = userName
+                UserName = context.Users.FirstOrDefault(u => u.Id == contextMessage.UserId)!.UserName
             }).ToList();
 
             string header = accessor.HttpContext!.Request.Headers["Authorization"].ToString();

@@ -3,4 +3,7 @@
 .MessagesContainer {
     display: flex;
     flex-direction: column;
+    overflow-x: hidden;
+    margin-bottom: 4rem;
+    padding: 0.5rem;
 }

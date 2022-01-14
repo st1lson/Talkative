@@ -17,14 +17,12 @@ namespace TalkativeWebAPI.GraphQL
         [UseSorting]
         public IQueryable<MessageDto> GetMessage([Service] IHttpContextAccessor accessor, [ScopedService] MessagesDbContext context)
         {
-            string userId = accessor.HttpContext!.User.Claims.First().Value;
-            string userName = context.Users.FirstOrDefault(u => u.Id == userId)!.UserName;
             IQueryable<MessageDto> messages = context.Messages.Select(contextMessage => new MessageDto
             {
                 Id = contextMessage.Id,
                 Text = contextMessage.Text,
                 Date = contextMessage.Date,
-                UserName = userName
+                UserName = context.Users.FirstOrDefault(u => u.Id == contextMessage.UserId)!.UserName
             });
 
             return messages;

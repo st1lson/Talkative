@@ -3,7 +3,7 @@ import authToken from './authToken';
 const graphql = {
     getMessages: `
     query {
-        message (order: { date: DESC }) {
+        message (order: { date: ASC }) {
             id
             text
             date
@@ -52,9 +52,9 @@ const graphql = {
     }`,
     onMessagesChangeSubscription: () => `
     subscription {
-        onMessagesChange(jwtToken: "${authToken.get().token}")
+        onMessagesChange(jwtToken: "${authToken.get()?.token}")
         {
-            messages {
+            messages (order: { date: ASC }) {
                 id
                 text
                 date
