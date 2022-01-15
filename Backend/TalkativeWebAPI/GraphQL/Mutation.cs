@@ -145,7 +145,7 @@ namespace TalkativeWebAPI.GraphQL
             string header = accessor.HttpContext!.Request.Headers["Authorization"].ToString();
             string topic = "OnMessagesChange_" + header.Split(" ")[1];
 
-            await eventSender.SendAsync(topic, new OnMessagesChange(messages), cancellationToken).ConfigureAwait(false);
+            await eventSender.SendAsync(topic, new OnMessagesChange(messages.OrderBy(m => m.Date)), cancellationToken).ConfigureAwait(false);
         }
     }
 }

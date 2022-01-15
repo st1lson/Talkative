@@ -54,7 +54,7 @@ const graphql = {
     subscription {
         onMessagesChange(jwtToken: "${authToken.get()?.token}")
         {
-            messages (order: { date: ASC }) {
+            messages {
                 id
                 text
                 date

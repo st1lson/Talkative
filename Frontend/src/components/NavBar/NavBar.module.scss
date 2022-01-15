@@ -11,19 +11,19 @@ nav {
         height: 100%;
         overflow: auto;
         z-index: 2;
-      
+
         li a {
             display: block;
             color: $another-user-color;
             padding: 8px 16px;
             text-decoration: none;
         }
-      
+
         li a.active {
-            background-color: #04AA6D;
+            background-color: #04aa6d;
             color: $another-user-color;
         }
-        
+
         li a:hover:not(.active) {
             background-color: #555;
             color: $another-user-color;

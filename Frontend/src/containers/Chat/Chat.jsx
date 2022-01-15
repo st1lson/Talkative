@@ -72,7 +72,8 @@ const Chat = () => {
 
     const { data } = useSubscription(subscriptions);
 
-    if (data) {
+    console.log(data);
+    if (data && data.onMessagesChange.messages !== state.messages) {
         setState(prev => ({
             ...prev,
             messages: data.onMessagesChange.messages,

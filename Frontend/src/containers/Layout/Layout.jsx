@@ -19,10 +19,11 @@ const Layout = props => {
         });
     };
 
-    console.log(isAuthenticated);
     return (
-        <div className={classes.Wrapper} isAuthenticated={isAuthenticated}>
-            {isAuthenticated ? (<NavBar onLogout={handleLogout} />) : null}
+        <div
+            className={classes.Wrapper}
+            isauthenticated={isAuthenticated.toString()}>
+            {isAuthenticated ? <NavBar onLogout={handleLogout} /> : null}
             <main>{children}</main>
         </div>
     );
