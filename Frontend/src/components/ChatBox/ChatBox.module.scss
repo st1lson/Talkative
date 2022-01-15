@@ -3,6 +3,7 @@
 .Wrapper {
     border-radius: 10px;
     position: relative;
+    overflow-wrap: break-word;
     padding: 1rem;
     margin: 1rem;
     max-width: 50%;
@@ -16,6 +17,7 @@
 
     &[user='user'] {
         background-color: $user-color;
+        margin-right: 5%;
         align-self: flex-end;
 
         .UserNameContainer {
@@ -40,6 +42,7 @@
 
     &[user='another-user'] {
         background-color: $another-user-color;
+        margin-left: 5%;
         align-self: flex-start;
 
         .MessageContainer {

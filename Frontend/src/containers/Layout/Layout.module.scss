@@ -1,15 +1,15 @@
 .Wrapper {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
 
-    .Logout {
-        position: fixed;
-        right: 1rem;
-        top: 1rem;
-    }
-
-    main {
-        padding-top: 5rem;
-        height: 100%;
+    @if isAuthenticated='true' {
+        main {
+            width: 93%;
+            margin-left: 7%;
+        }
+    } @else {
+        main {
+            width: 100%;
+        }
     }
 }

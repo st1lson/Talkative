@@ -140,7 +140,7 @@ namespace TalkativeWebAPI.GraphQL
                 Text = contextMessage.Text,
                 Date = contextMessage.Date,
                 UserName = context.Users.FirstOrDefault(u => u.Id == contextMessage.UserId)!.UserName
-            }).ToList();
+            }).ToArray();
 
             string header = accessor.HttpContext!.Request.Headers["Authorization"].ToString();
             string topic = "OnMessagesChange_" + header.Split(" ")[1];

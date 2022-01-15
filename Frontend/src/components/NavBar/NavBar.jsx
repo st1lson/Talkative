@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { FiLogOut } from 'react-icons/fi';
 import authToken from '../../global/js/authToken';
 import './NavBar.module.scss';
 
@@ -15,14 +16,13 @@ const NavBar = props => {
                     color: '#fff',
                     textDecoration: 'none',
                 }}>
-                Logout
+                <FiLogOut size='30%' />
             </Link>
         </li>
     ) : null;
 
     return (
         <nav>
-            <h1>Talkative</h1>
             <ul>
                 {menu}
             </ul>

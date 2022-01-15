@@ -8,6 +8,8 @@ import classes from './Layout.module.scss';
 const Layout = props => {
     const { children } = props;
 
+    const isAuthenticated = authToken.valid();
+
     const handleLogout = () => {
         const { onLogout } = props;
         axiosRESTInstance.post('auth/logout').then(() => {
@@ -17,9 +19,10 @@ const Layout = props => {
         });
     };
 
+    console.log(isAuthenticated);
     return (
-        <div className={classes.Wrapper}>
-            <NavBar onLogout={handleLogout} />
+        <div className={classes.Wrapper} isAuthenticated={isAuthenticated}>
+            {isAuthenticated ? (<NavBar onLogout={handleLogout} />) : null}
             <main>{children}</main>
         </div>
     );

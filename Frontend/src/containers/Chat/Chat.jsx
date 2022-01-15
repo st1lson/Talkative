@@ -72,7 +72,7 @@ const Chat = () => {
 
     const { data } = useSubscription(subscriptions);
 
-    if (data && data.onMessagesChange.messages !== state.messages) {
+    if (data) {
         setState(prev => ({
             ...prev,
             messages: data.onMessagesChange.messages,
@@ -143,7 +143,7 @@ const Chat = () => {
                     : null}
             </div>
             <InputMessage
-                placeholder="Input here your message"
+                placeholder="Write a message..."
                 name="newMessage"
                 onChange={onInputChange}
                 onClick={createMessage}
