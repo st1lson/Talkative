@@ -67,13 +67,18 @@ const Chat = () => {
     const [state, setState] = useState({
         messages: [],
         username: credentials.get()?.username,
+        lastElement: null,
         isLoading: false,
     });
 
     const { data } = useSubscription(subscriptions);
 
-    console.log(data);
+    const scrollToBottom = () => {
+        state.lastElement?.scrollIntoView({ behavior: 'smooth' });
+    };
+
     if (data && data.onMessagesChange.messages !== state.messages) {
+        scrollToBottom();
         setState(prev => ({
             ...prev,
             messages: data.onMessagesChange.messages,
@@ -142,6 +147,18 @@ const Chat = () => {
                         );
                     })
                     : null}
+                <div
+                    style={{ float: 'left', clear: 'both' }}
+                    ref={el => {
+                        if (el === state.lastElement) {
+                            return;
+                        }
+
+                        setState(prev => ({
+                            ...prev,
+                            lastElement: el,
+                        }));
+                    }}></div>
             </div>
             <InputMessage
                 placeholder="Write a message..."
