@@ -5,7 +5,6 @@
     @if isauthenticated= 'true' {
         main {
             width: 93%;
-            margin-left: 7%;
         }
     } @else {
         main {

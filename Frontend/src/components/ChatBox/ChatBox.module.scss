@@ -33,7 +33,7 @@
             content: '';
             position: absolute;
             visibility: visible;
-            top: 0px;
+            top: 0;
             right: -10px;
             border: 10px solid transparent;
             border-top: 10px solid $user-color;
@@ -60,7 +60,7 @@
             content: '';
             position: absolute;
             visibility: visible;
-            top: 0px;
+            top: 0;
             left: -10px;
             border: 10px solid transparent;
             border-top: 10px solid $another-user-color;

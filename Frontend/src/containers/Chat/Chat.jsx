@@ -78,7 +78,6 @@ const Chat = () => {
     };
 
     if (data && data.onMessagesChange.messages !== state.messages) {
-        scrollToBottom();
         setState(prev => ({
             ...prev,
             messages: data.onMessagesChange.messages,
@@ -126,8 +125,9 @@ const Chat = () => {
 
     const { messages, username } = state;
 
+    scrollToBottom();
     return (
-        <>
+        <div className={classes.Wrapper}>
             <div className={classes.MessagesContainer}>
                 {messages.length
                     ? messages.map(m => {
@@ -166,7 +166,7 @@ const Chat = () => {
                 onChange={onInputChange}
                 onClick={createMessage}
             />
-        </>
+        </div>
     );
 };
 

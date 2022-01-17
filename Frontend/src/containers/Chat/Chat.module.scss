@@ -1,9 +1,28 @@
 @import '../../global/scss/global.module.scss';
 
-.MessagesContainer {
+.Wrapper {
     display: flex;
     flex-direction: column;
-    overflow-x: hidden;
-    margin-bottom: 4rem;
-    padding: 0.5rem;
+    height: 100vh;
+
+    .MessagesContainer {
+        display: flex;
+        flex-direction: column;
+        height: calc(100vh - 4rem);
+        overflow-x: hidden;
+        padding: 0.5rem;
+    }
+
+    ::-webkit-scrollbar {
+        width: 0.5rem;
+    }
+
+    ::-webkit-scrollbar-track {
+        background-color: transparent;
+    }
+
+    ::-webkit-scrollbar-thumb {
+        border-radius: 0.25rem;
+        background-color: darken($color: $another-user-color, $amount: 60);
+    }
 }
