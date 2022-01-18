@@ -17,7 +17,6 @@ const ContextMenu = props => {
                 <ul>{children}</ul>
             </div>
         </>
-
     );
 };
 

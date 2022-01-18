@@ -67,3 +67,21 @@
         }
     }
 }
+
+.PopupMenu {
+    display: flex;
+    flex-direction: column;
+
+    .PopupMenuElement {
+        width: 100%;
+        cursor: pointer;
+        padding: 0.75rem 1rem;
+        position: relative;
+        display: flex;
+        white-space: nowrap;
+    }
+
+    .IconWrapper {
+        margin-right: 1.25rem;
+    }
+}

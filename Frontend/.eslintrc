@@ -21,6 +21,7 @@
         }
     },
     "rules": {
+        "linebreak-style": 0,
         "at-rule-no-unknown": 0,
         "sh-waqar/declaration-use-variable": 0,
         "sonarjs/cognitive-complexity": ["error", 15],

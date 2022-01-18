@@ -70,6 +70,7 @@ const Chat = () => {
         lastElement: null,
         newMessage: '',
         isLoading: false,
+        isEdit: false,
     });
 
     const { data } = useSubscription(subscriptions);
@@ -102,6 +103,32 @@ const Chat = () => {
             .finally(() => setState(prev => ({ ...prev, isLoading: false })));
     }, []);
 
+    const deleteMessage = element => {
+        setState(prev => ({ ...prev, isLoading: true }));
+
+        axiosGQLInstance
+            .post('/', { query: graphql.deleteMessage(element.id) })
+            .then(res => console.log(res.data))
+            .catch(err => {
+                console.log(err);
+            });
+    };
+
+    const putMessage = () => {
+        const { messageToPut, newMessage } = state;
+
+        setState(prev => ({ ...prev, isLoading: true }));
+
+        axiosGQLInstance
+            .post('/', {
+                query: graphql.putMessage(messageToPut.id, newMessage),
+            })
+            .then(res => console.log(res.data))
+            .catch(err => {
+                console.log(err);
+            });
+    };
+
     const createMessage = () => {
         const { newMessage } = state;
 
@@ -119,6 +146,21 @@ const Chat = () => {
             .catch(err => {
                 console.log(err);
             });
+    };
+
+    const handleInput = () => {
+        const { isEdit } = state;
+
+        isEdit ? putMessage() : createMessage();
+    };
+
+    const handlePut = element => {
+        setState(prev => ({
+            ...prev,
+            isEdit: true,
+            messageToPut: element,
+            newMessage: element.text,
+        }));
     };
 
     const onInputChange = e => {
@@ -147,9 +189,9 @@ const Chat = () => {
                             <ChatBox
                                 user={user}
                                 key={m.id}
-                                message={m.text}
-                                time={m.date}
-                                username={m.userName}
+                                message={m}
+                                onDelete={deleteMessage}
+                                onPut={handlePut}
                             />
                         );
                     })
@@ -173,7 +215,7 @@ const Chat = () => {
                 type="text"
                 name="newMessage"
                 onChange={onInputChange}
-                onClick={createMessage}
+                onClick={handleInput}
             />
         </div>
     );

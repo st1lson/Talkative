@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
+import { FiEdit2, FiDelete } from 'react-icons/fi';
 import classes from './ChatBox.module.scss';
 import dayjs from 'dayjs';
 import ContextMenu from '../ContextMenu/ContextMenu';
 
 const ChatBox = props => {
-    const { user, message, time, username } = props;
+    const { user, message, onDelete, onPut } = props;
     const [state, setState] = useState({
         xPos: '0px',
         yPos: '0px',
@@ -16,7 +17,11 @@ const ChatBox = props => {
     const onContextMenu = e => {
         e.preventDefault();
 
-        if (!messageRef || !messageRef.current.contains(e.target) || state.showMenu) {
+        if (
+            !messageRef ||
+            !messageRef.current.contains(e.target) ||
+            state.showMenu
+        ) {
             return;
         }
 
@@ -34,25 +39,59 @@ const ChatBox = props => {
             onContextMenu={onContextMenu}
             ref={messageRef}>
             {state.showMenu ? (
-                <ContextMenu xPos={state.xPos} yPos={state.yPos}
+                <ContextMenu
+                    xPos={state.xPos}
+                    yPos={state.yPos}
                     onClick={() => {
                         setState(prev => ({
                             ...prev,
                             showMenu: false,
                         }));
                     }}>
-                    <li><a href='.'>a</a></li>
-                    <li><a href='.'>b</a></li>
+                    <div className={classes.PopupMenu}>
+                        <div
+                            tabIndex="0"
+                            className={classes.PopupMenuElement}
+                            role="button"
+                            onClick={() => {
+                                setState(prev => ({
+                                    ...prev,
+                                    showMenu: false,
+                                }));
+                                onPut(message);
+                            }}>
+                            <div className={classes.IconWrapper}>
+                                <FiEdit2 />
+                            </div>
+                            Edit
+                        </div>
+                        <div
+                            tabIndex="0"
+                            className={classes.PopupMenuElement}
+                            role="button"
+                            onClick={() => {
+                                setState(prev => ({
+                                    ...prev,
+                                    showMenu: false,
+                                }));
+                                onDelete(message);
+                            }}>
+                            <div className={classes.IconWrapper}>
+                                <FiDelete />
+                            </div>
+                            Delete
+                        </div>
+                    </div>
                 </ContextMenu>
             ) : null}
             <div className={classes.UserNameContainer}>
-                <span>{username}</span>
+                <span>{message.userName}</span>
             </div>
             <div className={classes.MessageContainer}>
-                <span>{message}</span>
+                <span>{message.text}</span>
             </div>
             <div className={classes.DateContainer}>
-                <span>{dayjs(time).format('YYYY-MM-DD hh:mm')}</span>
+                <span>{dayjs(message.date).format('YYYY-MM-DD hh:mm')}</span>
             </div>
         </div>
     );
