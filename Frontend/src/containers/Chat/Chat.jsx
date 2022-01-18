@@ -68,6 +68,7 @@ const Chat = () => {
         messages: [],
         username: credentials.get()?.username,
         lastElement: null,
+        newMessage: '',
         isLoading: false,
     });
 
@@ -108,10 +109,16 @@ const Chat = () => {
 
         axiosGQLInstance
             .post('/', { query: graphql.addMessage(newMessage) })
+            .then(() => {
+                setState(prev => ({
+                    ...prev,
+                    isLoading: false,
+                    newMessage: '',
+                }));
+            })
             .catch(err => {
                 console.log(err);
-            })
-            .finally(() => setState(prev => ({ ...prev, isLoading: false })));
+            });
     };
 
     const onInputChange = e => {
@@ -123,7 +130,7 @@ const Chat = () => {
         }));
     };
 
-    const { messages, username } = state;
+    const { newMessage, messages, username } = state;
 
     scrollToBottom();
     return (
@@ -162,6 +169,8 @@ const Chat = () => {
             </div>
             <InputMessage
                 placeholder="Write a message..."
+                value={newMessage}
+                type="text"
                 name="newMessage"
                 onChange={onInputChange}
                 onClick={createMessage}

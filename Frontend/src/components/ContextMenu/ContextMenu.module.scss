@@ -1,0 +1,35 @@
+@import '../../global/scss/global.module.scss';
+
+.ContextMenu {
+    position: fixed;
+    height: 200px;
+    width: 120px;
+    background-color: $another-user-color;
+    border: 1px solid $font-color;
+    font-size: 1rem;
+    border-radius: 5px;
+    z-index: 4;
+
+    ul {
+        list-style: none;
+        width: 100%;
+        padding: 0;
+        margin: 0;
+    }
+      
+    ul li {
+        padding: 10px;
+        cursor: pointer;
+        border-radius: 5px;
+    }
+      
+    ul li a {
+        padding: 0;
+        text-decoration: none;
+        color: $font-color;
+    }
+      
+    ul li:hover {
+        background-color: darken($another-user-color, 10%);
+    }
+}
