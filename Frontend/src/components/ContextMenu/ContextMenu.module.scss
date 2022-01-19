@@ -34,4 +34,8 @@
     ul li:hover {
         background-color: darken($another-user-color, 10%);
     }
+
+    [delete] {
+        color: $delete-font-color;
+    }
 }

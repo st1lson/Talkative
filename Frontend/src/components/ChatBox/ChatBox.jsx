@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { FiEdit2, FiDelete } from 'react-icons/fi';
+import { FiCopy, FiEdit2, FiDelete } from 'react-icons/fi';
 import classes from './ChatBox.module.scss';
 import dayjs from 'dayjs';
 import ContextMenu from '../ContextMenu/ContextMenu';
@@ -58,6 +58,22 @@ const ChatBox = props => {
                                     ...prev,
                                     showMenu: false,
                                 }));
+                                navigator.clipboard.writeText(message.text);
+                            }}>
+                            <div className={classes.IconWrapper}>
+                                <FiCopy />
+                            </div>
+                            Copy
+                        </div>
+                        <div
+                            tabIndex="0"
+                            className={classes.PopupMenuElement}
+                            role="button"
+                            onClick={() => {
+                                setState(prev => ({
+                                    ...prev,
+                                    showMenu: false,
+                                }));
                                 onPut(message);
                             }}>
                             <div className={classes.IconWrapper}>
@@ -68,6 +84,7 @@ const ChatBox = props => {
                         <div
                             tabIndex="0"
                             className={classes.PopupMenuElement}
+                            delete="true"
                             role="button"
                             onClick={() => {
                                 setState(prev => ({

@@ -17,7 +17,7 @@
 
     &[user='user'] {
         background-color: $user-color;
-        margin-right: 5%;
+        margin-right: 10%;
         align-self: flex-end;
 
         .UserNameContainer {
@@ -42,7 +42,7 @@
 
     &[user='another-user'] {
         background-color: $another-user-color;
-        margin-left: 5%;
+        margin-left: 10%;
         align-self: flex-start;
 
         .MessageContainer {
