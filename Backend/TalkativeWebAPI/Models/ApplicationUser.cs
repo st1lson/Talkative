@@ -5,6 +5,7 @@ namespace TalkativeWebAPI.Models
 {
     public class ApplicationUser : IdentityUser
     {
-        public ICollection<Message> Messages { get; set; } = new List<Message>();
+        public List<UserGroup> UserGroups { get; set; } = new();
+        public List<Message> Messages { get; set; } = new();
     }
 }
