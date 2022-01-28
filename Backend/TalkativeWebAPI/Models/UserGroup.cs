@@ -8,7 +8,7 @@ namespace TalkativeWebAPI.Models
         public int Id { get; set; }
 
         [Required]
-        public string GroupId { get; set; }
+        public int GroupId { get; set; }
 
         [Required]
         public string UserId { get; set; }

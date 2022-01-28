@@ -12,11 +12,16 @@ namespace TalkativeWebAPI.Models
         public string UserId { get; set; }
 
         [Required]
+        public int GroupId { get; set; }
+
+        [Required]
         public string Text { get; set; }
 
         [Required]
         public DateTime Date { get; set; }
 
         public ApplicationUser User { get; set; }
+
+        public Group Group { get; set; }
     }
 }

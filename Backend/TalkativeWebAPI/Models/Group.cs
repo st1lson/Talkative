@@ -7,18 +7,13 @@ namespace TalkativeWebAPI.Models
     public class Group
     {
         [Key]
-        public string Id { get; set; }
-
-        [Required]
-        public string CreatorId { get; set; }
+        public int Id { get; set; }
 
         [Required]
         public string Name { get; set; }
 
         [Required]
         public DateTime CreationDate { get; set; }
-
-        public ApplicationUser User { get; set; }
 
         public List<UserGroup> UserGroups { get; set; } = new();
 
