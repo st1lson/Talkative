@@ -8,6 +8,10 @@ namespace TalkativeWebAPI.Data.DbContexts
     {
         public override DbSet<ApplicationUser> Users { get; set; }
 
+        public DbSet<Group> Groups { get; set; }
+        
+        public DbSet<UserGroup> UserGroups { get; set; }
+
         public DbSet<Message> Messages { get; set; }
 
         public MessagesDbContext(DbContextOptions options) : base(options)

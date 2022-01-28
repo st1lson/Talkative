@@ -14,9 +14,15 @@ namespace TalkativeWebAPI.GraphQL.Messages
 
             descriptor
                 .Field(m => m.User)
-                .ResolveWith<Resolvers>(m => m.GetUser(default!, default!))
+                .ResolveWith<Resolvers>(r => r.GetUser(default!, default!))
                 .UseDbContext<MessagesDbContext>()
                 .Description("This is the user who wrote this message.");
+
+            descriptor
+                .Field(m => m.Group)
+                .ResolveWith<Resolvers>(r => r.GetGroup(default!, default!))
+                .UseDbContext<MessagesDbContext>()
+                .Description("This is the group where message was written.");
         }
 
         private sealed class Resolvers
@@ -24,6 +30,11 @@ namespace TalkativeWebAPI.GraphQL.Messages
             public ApplicationUser GetUser(Message message, [ScopedService] MessagesDbContext context)
             {
                 return context.Users.FirstOrDefault(u => u.Id == message.UserId);
+            }
+
+            public Group GetGroup(Message message, [ScopedService] MessagesDbContext context)
+            {
+                return context.Groups.FirstOrDefault(g => g.Id == message.GroupId);
             }
         }
     }
