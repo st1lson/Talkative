@@ -13,7 +13,12 @@ namespace TalkativeWebAPI.Models
         public string Name { get; set; }
 
         [Required]
+        public string CreatorId { get; set; }
+
+        [Required]
         public DateTime CreationDate { get; set; }
+
+        public ApplicationUser Creator { get; set; }
 
         public List<UserGroup> UserGroups { get; set; } = new();
 

@@ -46,6 +46,13 @@ namespace TalkativeWebAPI.Data.DbContexts
                 .OnDelete(DeleteBehavior.Cascade);
 
             builder
+                .Entity<ApplicationUser>()
+                .HasMany(u => u.Groups)
+                .WithOne(g => g.Creator)
+                .HasForeignKey(g => g.CreatorId)
+                .OnDelete(DeleteBehavior.NoAction);
+
+            builder
                 .Entity<Group>()
                 .HasMany(g => g.UserGroups)
                 .WithOne(ug => ug.Group)

@@ -13,6 +13,12 @@ namespace TalkativeWebAPI.GraphQL.Groups
             descriptor.Description("Represents a group.");
 
             descriptor
+                .Field(g => g.Creator)
+                .ResolveWith<Resolvers>(r => r.GetCreator(default!, default!))
+                .UseDbContext<MessagesDbContext>()
+                .Description("User who was created the specified group.");
+
+            descriptor
                 .Field(g => g.UserGroups)
                 .ResolveWith<Resolvers>(r => r.GetUsers(default!, default!))
                 .UseDbContext<MessagesDbContext>()
@@ -29,6 +35,11 @@ namespace TalkativeWebAPI.GraphQL.Groups
 
         private sealed class Resolvers
         {
+            public ApplicationUser GetCreator(Group group, [ScopedService] MessagesDbContext context)
+            {
+                return context.Users.FirstOrDefault(u => u.Id == group.CreatorId);
+            }
+
             public IQueryable<ApplicationUser> GetUsers(Group group, [ScopedService] MessagesDbContext context)
             {
                 return context.UserGroups
