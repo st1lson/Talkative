@@ -116,6 +116,30 @@ namespace TalkativeWebAPI.GraphQL
             return new PutMessagePayload(messageDto);
         }
 
+        [UseDbContext(typeof(MessagesDbContext))]
+        public async Task<PutGroupPayload> PutGroupAsync(PutGroupInput input,
+            [Service] IHttpContextAccessor accessor,
+            [ScopedService] MessagesDbContext context)
+        {
+            HtmlSanitizer sanitizer = new();
+            PutGroupInput sanitizedInput = new(input.Id, sanitizer.Sanitize(input.Name));
+
+            string userId = accessor.HttpContext!.User.Claims.First().Value;
+
+            Group group = context.Groups.FirstOrDefault(g => g.Id == sanitizedInput.Id);
+
+            if (group is null || group.CreatorId != userId)
+            {
+                throw new GraphQLException();
+            }
+
+            group.Name = sanitizedInput.Name;
+
+            await context.SaveChangesAsync().ConfigureAwait(false);
+
+            return new PutGroupPayload(group);
+        }
+
         [Authorize(Policy = "Auth")]
         [UseDbContext(typeof(MessagesDbContext))]
         public async Task<DeleteMessagePayload> DeleteMessageAsync(DeleteMessageInput input,

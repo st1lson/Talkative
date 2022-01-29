@@ -1,4 +1,4 @@
 ﻿namespace TalkativeWebAPI.GraphQL.Groups
 {
-    public record PutGroupInput(string Name);
+    public record PutGroupInput(int Id, string Name);
 }
