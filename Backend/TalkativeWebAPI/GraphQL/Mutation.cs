@@ -11,6 +11,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using TalkativeWebAPI.Data.DbContexts;
 using TalkativeWebAPI.Dtos;
+using TalkativeWebAPI.GraphQL.Groups;
 using TalkativeWebAPI.GraphQL.Messages;
 using TalkativeWebAPI.Models;
 
@@ -52,6 +53,28 @@ namespace TalkativeWebAPI.GraphQL
                 eventSender, cancellationToken).ConfigureAwait(false);
 
             return new AddMessagePayload(messageDto);
+        }
+
+        [Authorize(Policy = "Auth")]
+        [UseDbContext(typeof(MessagesDbContext))]
+        public async Task<AddGroupPayload> AddGroupAsync(AddGroupInput input,
+            [Service] IHttpContextAccessor accessor,
+            [ScopedService] MessagesDbContext context)
+        {
+            HtmlSanitizer sanitizer = new();
+            string userId = accessor.HttpContext!.User.Claims.First().Value;
+
+            Group group = new()
+            {
+                Name = sanitizer.Sanitize(input.Name),
+                CreatorId = userId,
+                CreationDate = DateTime.Now
+            };
+
+            context.Groups.Add(group);
+            await context.SaveChangesAsync().ConfigureAwait(false);
+
+            return new AddGroupPayload(group);
         }
 
         [Authorize(Policy = "Auth")]

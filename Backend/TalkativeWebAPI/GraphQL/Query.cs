@@ -15,7 +15,8 @@ namespace TalkativeWebAPI.GraphQL
         [UseDbContext(typeof(MessagesDbContext))]
         [UseFiltering]
         [UseSorting]
-        public IQueryable<MessageDto> GetMessage([Service] IHttpContextAccessor accessor, [ScopedService] MessagesDbContext context)
+        public IQueryable<MessageDto> GetMessage([Service] IHttpContextAccessor accessor,
+            [ScopedService] MessagesDbContext context)
         {
             IQueryable<MessageDto> messages = context.Messages.Select(contextMessage => new MessageDto
             {
@@ -32,11 +33,26 @@ namespace TalkativeWebAPI.GraphQL
         [UseDbContext(typeof(MessagesDbContext))]
         [UseFiltering]
         [UseSorting]
-        public IQueryable<ApplicationUser> GetUser([Service] IHttpContextAccessor accessor, [ScopedService] MessagesDbContext context)
+        public IQueryable<ApplicationUser> GetUser([Service] IHttpContextAccessor accessor,
+            [ScopedService] MessagesDbContext context)
         {
             string userId = accessor.HttpContext!.User.Claims.First().Value;
 
             return context.Users.Where(u => u.Id == userId);
+        }
+
+        [Authorize(Policy = "Auth")]
+        [UseDbContext(typeof(MessagesDbContext))]
+        [UseFiltering]
+        [UseSorting]
+        public IQueryable<Group> GetGroup([Service] IHttpContextAccessor accessor,
+            [ScopedService] MessagesDbContext context)
+        {
+            string userId = accessor.HttpContext!.User.Claims.First().Value;
+
+            return context.UserGroups
+                .Where(ug => ug.UserId == context.Users.First().Id)
+                .Select(ug => ug.Group);
         }
     }
 }
