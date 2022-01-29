@@ -27,6 +27,7 @@ const graphql = {
     putMessage: (id, message) => `
     mutation {
         putMessage(input: {
+            groupId: 1,
             id: ${id},
             text: "${message}"
         })
@@ -41,6 +42,7 @@ const graphql = {
     deleteMessage: id => `
     mutation {
         deleteMessage(input: {
+            groupId: 1,
             id: ${id}
         })
         {

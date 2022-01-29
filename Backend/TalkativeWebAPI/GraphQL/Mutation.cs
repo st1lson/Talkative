@@ -31,10 +31,7 @@ namespace TalkativeWebAPI.GraphQL
             string userId = accessor.HttpContext!.User.Claims.First().Value;
             string userName = context.Users.FirstOrDefault(u => u.Id == userId)?.UserName;
 
-            UserGroup userGroup =
-                context.UserGroups.FirstOrDefault(ug => ug.UserId == userId && ug.GroupId == input.GroupId);
-
-            if (userGroup is null)
+            if (!IsJoinedGroup(userId, input.GroupId, context))
             {
                 throw new GraphQLException();
             }
@@ -95,10 +92,15 @@ namespace TalkativeWebAPI.GraphQL
             CancellationToken cancellationToken)
         {
             HtmlSanitizer sanitizer = new();
-            PutMessageInput sanitizedInput = new(input.Id, sanitizer.Sanitize(input.Text));
+            PutMessageInput sanitizedInput = new(input.GroupId, input.Id, sanitizer.Sanitize(input.Text));
 
             string userId = accessor.HttpContext!.User.Claims.First().Value;
             string userName = context.Users.FirstOrDefault(u => u.Id == userId)?.UserName;
+
+            if (!IsJoinedGroup(userId, input.GroupId, context))
+            {
+                throw new GraphQLException();
+            }
 
             Message message = context.Messages.FirstOrDefault(m => m.Id == sanitizedInput.Id);
 
@@ -160,6 +162,11 @@ namespace TalkativeWebAPI.GraphQL
             string userId = accessor.HttpContext!.User.Claims.First().Value;
             string userName = context.Users.FirstOrDefault(u => u.Id == userId)?.UserName;
 
+            if (!IsJoinedGroup(userId, input.GroupId, context))
+            {
+                throw new GraphQLException();
+            }
+
             Message message = context.Messages.FirstOrDefault(m => m.Id == input.Id);
 
             if (message is null || message.UserId != userId)
@@ -183,6 +190,14 @@ namespace TalkativeWebAPI.GraphQL
                 eventSender, cancellationToken).ConfigureAwait(false);
 
             return new DeleteMessagePayload(messageDto);
+        }
+
+        private static bool IsJoinedGroup(string userId, int groupId, MessagesDbContext context)
+        {
+            UserGroup userGroup =
+                context.UserGroups.FirstOrDefault(ug => ug.UserId == userId && ug.GroupId == groupId);
+
+            return userGroup is not null;
         }
 
         private static async Task SubscribeAsync(MessagesDbContext context,
