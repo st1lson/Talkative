@@ -12,7 +12,8 @@ const graphql = {
     }`,
     addMessage: message => `
     mutation {
-        addMessage(input: { 
+        addMessage(input: {
+            groupId: 1,
             text: "${message}"
         })
         {

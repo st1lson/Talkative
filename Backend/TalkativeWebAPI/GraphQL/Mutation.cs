@@ -31,10 +31,19 @@ namespace TalkativeWebAPI.GraphQL
             string userId = accessor.HttpContext!.User.Claims.First().Value;
             string userName = context.Users.FirstOrDefault(u => u.Id == userId)?.UserName;
 
+            UserGroup userGroup =
+                context.UserGroups.FirstOrDefault(ug => ug.UserId == userId && ug.GroupId == input.GroupId);
+
+            if (userGroup is null)
+            {
+                throw new GraphQLException();
+            }
+
             Message message = new()
             {
                 Text = sanitizer.Sanitize(input.Text),
                 UserId = userId,
+                GroupId = input.GroupId,
                 Date = DateTime.Now
             };
 

@@ -1,4 +1,4 @@
 ﻿namespace TalkativeWebAPI.GraphQL.Messages
 {
-    public record AddMessageInput(string Text);
+    public record AddMessageInput(int GroupId, string Text);
 }

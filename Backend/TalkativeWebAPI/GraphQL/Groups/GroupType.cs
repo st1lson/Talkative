@@ -29,8 +29,6 @@ namespace TalkativeWebAPI.GraphQL.Groups
                 .ResolveWith<Resolvers>(r => r.GetMessages(default!, default!))
                 .UseDbContext<MessagesDbContext>()
                 .Description("All messages which were written in the specified group.");
-
-            base.Configure(descriptor);
         }
 
         private sealed class Resolvers
