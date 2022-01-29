@@ -13,6 +13,7 @@ using System.Text;
 using TalkativeWebAPI.Data.DbContexts;
 using TalkativeWebAPI.GraphQL;
 using TalkativeWebAPI.GraphQL.ApplicationUsers;
+using TalkativeWebAPI.GraphQL.Groups;
 using TalkativeWebAPI.GraphQL.Messages;
 using TalkativeWebAPI.Models;
 using TalkativeWebAPI.Services;
@@ -107,6 +108,7 @@ namespace TalkativeWebAPI
                 .AddSubscriptionType<Subscription>()
                 .AddType<ApplicationUserType>()
                 .AddType<MessageType>()
+                .AddType<GroupType>()
                 .AddFiltering()
                 .AddSorting()
                 .AddInMemorySubscriptions()
