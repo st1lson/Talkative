@@ -14,14 +14,14 @@ namespace TalkativeWebAPI.GraphQL.ApplicationUsers
 
             descriptor
                 .Field(u => u.Messages)
-                .ResolveWith<Resolvers>(u => u.GetUsers(default!, default!))
+                .ResolveWith<Resolvers>(u => u.GetMessages(default!, default!))
                 .UseDbContext<MessagesDbContext>()
                 .Description("This is the list of messages which was created by separate user.");
         }
 
         private sealed class Resolvers
         {
-            public IQueryable<Message> GetUsers(ApplicationUser user, [ScopedService] MessagesDbContext context)
+            public IQueryable<Message> GetMessages(ApplicationUser user, [ScopedService] MessagesDbContext context)
             {
                 return context.Messages.Where(m => m.UserId == user.Id);
             }

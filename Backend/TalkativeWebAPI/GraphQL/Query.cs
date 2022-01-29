@@ -51,7 +51,7 @@ namespace TalkativeWebAPI.GraphQL
             string userId = accessor.HttpContext!.User.Claims.First().Value;
 
             return context.UserGroups
-                .Where(ug => ug.UserId == context.Users.First().Id)
+                .Where(ug => ug.UserId == userId)
                 .Select(ug => ug.Group);
         }
     }
