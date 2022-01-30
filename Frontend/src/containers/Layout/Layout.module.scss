@@ -3,17 +3,18 @@
     flex-direction: row;
 
     .MenuContainer {
-        width: 30%;
+        width: 20%;
         min-height: 100%;
         display: flex;
-        flex-direction: row;
     }
 
-    @if isauthenticated= 'true' {
+    &[isauthenticated='true'] {
         main {
-            width: 70%;
+            width: 80%;
         }
-    } @else {
+    } 
+
+    &[isauthenticated='false'] {
         main {
             width: 100%;
         }

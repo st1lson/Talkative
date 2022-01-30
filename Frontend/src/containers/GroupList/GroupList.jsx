@@ -10,15 +10,20 @@ export default class GroupList extends Component {
         this.state = {
             groups: [],
         };
+
+        this.getGroups();
     }
 
     getGroups = () => {
         axiosGQLInstance
             .post('/', { query: graphql.getGroups })
-            .then(() => {
+            .then(res => {
+                if (!res.data.data.group) {
+                    return;
+                }
+
                 this.setState({
-                    isLoading: false,
-                    newMessage: '',
+                    groups: res.data.data.group,
                 });
             })
             .catch(err => {
@@ -33,6 +38,7 @@ export default class GroupList extends Component {
             <div className={classes.Wrapper}>
                 {groups.map(g => (
                     <GroupBox
+                        key={g.id}
                         group={g}
                         onDelete={() => console.log('delete')}
                         onPut={() => console.log('put')}
