@@ -1,6 +1,6 @@
-﻿using System.Linq;
-using HotChocolate;
+﻿using HotChocolate;
 using HotChocolate.Types;
+using System.Linq;
 using TalkativeWebAPI.Data.DbContexts;
 using TalkativeWebAPI.Models;
 

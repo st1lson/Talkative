@@ -10,6 +10,14 @@ const graphql = {
             userName
         }
     }`,
+    getGroups: `
+    query {
+        group
+        {
+            id
+            name
+        }
+    }`,
     addMessage: message => `
     mutation {
         addMessage(input: {
@@ -21,6 +29,18 @@ const graphql = {
                 id
                 text
                 date
+            }
+        }
+    }`,
+    addGroup: name => `
+    mutation {
+        addGroup(input: {
+            name: "${name}"
+        })
+        {
+            group {
+                name
+                creatorId
             }
         }
     }`,
@@ -36,6 +56,19 @@ const graphql = {
                 id
                 text
                 date
+            }
+        }
+    }`,
+    putGroup: (groupId, name) => `
+    mutation {
+        putGroup(input: {
+            groupId:: ${groupId},
+            name: "${name}"
+        })
+        {
+            group {
+                id
+                name
             }
         }
     }`,

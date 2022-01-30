@@ -133,11 +133,11 @@ namespace TalkativeWebAPI.GraphQL
             [ScopedService] MessagesDbContext context)
         {
             HtmlSanitizer sanitizer = new();
-            PutGroupInput sanitizedInput = new(input.Id, sanitizer.Sanitize(input.Name));
+            PutGroupInput sanitizedInput = new(input.GroupId, sanitizer.Sanitize(input.Name));
 
             string userId = accessor.HttpContext!.User.Claims.First().Value;
 
-            Group group = context.Groups.FirstOrDefault(g => g.Id == sanitizedInput.Id);
+            Group group = context.Groups.FirstOrDefault(g => g.Id == sanitizedInput.GroupId);
 
             if (group is null || group.CreatorId != userId)
             {

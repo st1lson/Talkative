@@ -1,13 +1,12 @@
 @import '../../global/scss/global.module.scss';
 
 nav {
-    width: 7%;
+    width: 20%;
 
     ul {
         list-style-type: none;
         margin: 0;
         padding: 0;
-        width: 100%;
         background-color: $second-color;
         position: relative;
         height: 100%;
