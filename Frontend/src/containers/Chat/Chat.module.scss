@@ -3,6 +3,7 @@
 .Wrapper {
     display: flex;
     flex-direction: column;
+    background-color: $main-color;
     height: 100vh;
 
     .MessagesContainer {

@@ -1,7 +1,15 @@
 @import '../../global/scss/global.module.scss';
 
 .Wrapper {
-    width: 80%;
     height: 100%;
     background-color: $third-color;
+    display: flex;
+
+    .GroupsContainer {
+        width: 20%;
+    }
+
+    .ChatContainer {
+        width: 80%;
+    }
 }

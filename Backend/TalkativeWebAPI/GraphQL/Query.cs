@@ -23,6 +23,7 @@ namespace TalkativeWebAPI.GraphQL
                 Id = contextMessage.Id,
                 Text = contextMessage.Text,
                 Date = contextMessage.Date,
+                GroupId = contextMessage.GroupId,
                 UserName = context.Users.FirstOrDefault(u => u.Id == contextMessage.UserId)!.UserName
             });
 

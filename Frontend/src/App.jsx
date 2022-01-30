@@ -1,11 +1,11 @@
 import { Component } from 'react';
 import { Route, Switch, Redirect } from 'react-router-dom';
-import Chat from './containers/Chat/Chat';
 import Layout from './containers/Layout/Layout';
 import Login from './containers/Auth/Login/Login';
 import Register from './containers/Auth/Register/Register';
 import authToken from './global/js/authToken';
 import credentials from './global/js/credentials';
+import GroupList from './containers/GroupList/GroupList';
 
 export default class App extends Component {
     constructor(props) {
@@ -44,7 +44,7 @@ export default class App extends Component {
                 {isAuthenticated ? (
                     <Switch>
                         <Route path="/chat" exact>
-                            <Chat />
+                            <GroupList />
                         </Route>
                         <Redirect to="/chat" />
                     </Switch>

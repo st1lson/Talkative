@@ -1,27 +1,27 @@
 import authToken from './authToken';
 
 const graphql = {
-    getMessages: `
+    getMessages: groupId => `
     query {
-        message (order: { date: ASC }) {
-            id
-            text
-            date
-            userName
+        message (
+            where: { groupId: ${groupId} },
+            order: { date: ASC }) {
+                id
+                text
+                userName
         }
     }`,
     getGroups: `
     query {
-        group
-        {
+        group {
             id
             name
         }
     }`,
-    addMessage: message => `
+    addMessage: (groupId, message) => `
     mutation {
         addMessage(input: {
-            groupId: 1,
+            groupId: ${groupId},
             text: "${message}"
         })
         {
@@ -44,10 +44,10 @@ const graphql = {
             }
         }
     }`,
-    putMessage: (id, message) => `
+    putMessage: (groupId, id, message) => `
     mutation {
         putMessage(input: {
-            groupId: 1,
+            groupId: ${groupId},
             id: ${id},
             text: "${message}"
         })

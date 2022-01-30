@@ -25,10 +25,7 @@ const Layout = props => {
             className={classes.Wrapper}
             isauthenticated={isAuthenticated.toString()}>
             {isAuthenticated ? (
-                <div className={classes.MenuContainer}>
-                    <NavBar onLogout={handleLogout} />
-                    <GroupList />
-                </div>
+                <NavBar onLogout={handleLogout} />
             ) : null}
             <main>{children}</main>
         </div>

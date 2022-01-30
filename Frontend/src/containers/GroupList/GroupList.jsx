@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import graphql from '../../global/js/graphql';
 import axiosGQLInstance from '../../global/js/axiosGQLInstance';
 import GroupBox from '../../components/GroupBox/GroupBox';
+import Chat from '../Chat/Chat';
 import classes from './GroupList.module.scss';
 
 export default class GroupList extends Component {
@@ -9,6 +10,7 @@ export default class GroupList extends Component {
         super(props);
         this.state = {
             groups: [],
+            selectedGroup: 0,
         };
 
         this.getGroups();
@@ -31,19 +33,29 @@ export default class GroupList extends Component {
             });
     };
 
+    selectChat = group => {
+        console.log(group.id);
+    }
+
     render() {
-        const { groups } = this.state;
+        const { groups, selectedGroup } = this.state;
 
         return (
             <div className={classes.Wrapper}>
-                {groups.map(g => (
-                    <GroupBox
-                        key={g.id}
-                        group={g}
-                        onDelete={() => console.log('delete')}
-                        onPut={() => console.log('put')}
-                    />
-                ))}
+                <div className={classes.GroupsContainer}>
+                    {groups.map(g => (
+                        <GroupBox
+                            key={g.id}
+                            group={g}
+                            onClick={this.selectChat}
+                            onDelete={() => console.log('delete')}
+                            onPut={() => console.log('put')}
+                        />
+                    ))}
+                </div>
+                <div className={classes.ChatContainer}>
+                    <Chat groupId={selectedGroup}/>
+                </div>
             </div>
         );
     }
