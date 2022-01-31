@@ -24,9 +24,7 @@ const Layout = props => {
         <div
             className={classes.Wrapper}
             isauthenticated={isAuthenticated.toString()}>
-            {isAuthenticated ? (
-                <NavBar onLogout={handleLogout} />
-            ) : null}
+            {isAuthenticated ? <NavBar onLogout={handleLogout} /> : null}
             <main>{children}</main>
         </div>
     );

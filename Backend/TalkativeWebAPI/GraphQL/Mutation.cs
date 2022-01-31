@@ -55,7 +55,7 @@ namespace TalkativeWebAPI.GraphQL
                 UserName = userName
             };
 
-            await SubscribeAsync(context, accessor,
+            await SubscribeAsync(input.GroupId, context, accessor,
                 eventSender, cancellationToken).ConfigureAwait(false);
 
             return new AddMessagePayload(messageDto);
@@ -121,7 +121,7 @@ namespace TalkativeWebAPI.GraphQL
                 UserName = userName
             };
 
-            await SubscribeAsync(context, accessor,
+            await SubscribeAsync(input.GroupId, context, accessor,
                 eventSender, cancellationToken).ConfigureAwait(false);
 
             return new PutMessagePayload(messageDto);
@@ -186,7 +186,7 @@ namespace TalkativeWebAPI.GraphQL
                 UserName = userName
             };
 
-            await SubscribeAsync(context, accessor,
+            await SubscribeAsync(input.GroupId, context, accessor,
                 eventSender, cancellationToken).ConfigureAwait(false);
 
             return new DeleteMessagePayload(messageDto);
@@ -200,16 +200,19 @@ namespace TalkativeWebAPI.GraphQL
             return userGroup is not null;
         }
 
-        private static async Task SubscribeAsync(MessagesDbContext context,
+        private static async Task SubscribeAsync(
+            int groupId,
+            MessagesDbContext context,
             IHttpContextAccessor accessor,
             ITopicEventSender eventSender,
             CancellationToken cancellationToken)
         {
-            IEnumerable<MessageDto> messages = context.Messages.Select(contextMessage => new MessageDto
+            IEnumerable<MessageDto> messages = context.Messages.Where(m => m.GroupId == groupId).Select(contextMessage => new MessageDto
             {
                 Id = contextMessage.Id,
                 Text = contextMessage.Text,
                 Date = contextMessage.Date,
+                GroupId = contextMessage.GroupId,
                 UserName = context.Users.FirstOrDefault(u => u.Id == contextMessage.UserId)!.UserName
             }).ToArray();
 

@@ -4,10 +4,11 @@ const graphql = {
     getMessages: groupId => `
     query {
         message (
-            where: { groupId: ${groupId} },
+            where: { groupId: {eq: ${groupId}} },
             order: { date: ASC }) {
                 id
                 text
+                date
                 userName
         }
     }`,
@@ -72,10 +73,10 @@ const graphql = {
             }
         }
     }`,
-    deleteMessage: id => `
+    deleteMessage: (groupId, id) => `
     mutation {
         deleteMessage(input: {
-            groupId: 1,
+            groupId: ${groupId},
             id: ${id}
         })
         {
@@ -94,6 +95,7 @@ const graphql = {
                 id
                 text
                 date
+                groupId
                 userName
             }
         }

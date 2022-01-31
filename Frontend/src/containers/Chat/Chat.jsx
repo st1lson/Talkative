@@ -63,15 +63,17 @@ const subscriptions = gql`
     ${graphql.onMessagesChangeSubscription()}
 `;
 
-const Chat = () => {
+const Chat = props => {
     const [state, setState] = useState({
         messages: [],
         username: credentials.get()?.username,
         lastElement: null,
         newMessage: '',
+        lastGroup: 0,
         isLoading: false,
         isEdit: false,
     });
+    const { groupId } = props;
 
     const { data } = useSubscription(subscriptions);
 
@@ -79,7 +81,31 @@ const Chat = () => {
         state.lastElement?.scrollIntoView({ behavior: 'smooth' });
     };
 
-    if (data && data.onMessagesChange.messages !== state.messages) {
+    if (groupId !== state.lastGroup) {
+        setState(prev => ({
+            ...prev,
+            lastGroup: groupId,
+        }));
+
+        axiosGQLInstance
+            .post('/', { query: graphql.getMessages(groupId) })
+            .then(res => {
+                setState(prev => ({
+                    ...prev,
+                    messages: res.data.data.message,
+                }));
+            })
+            .catch(err => {
+                console.log(err);
+            })
+            .finally(() => setState(prev => ({ ...prev, isLoading: false })));
+    }
+
+    if (
+        data &&
+        (data.onMessagesChange.messages !== state.messages ||
+            data.onMessagesChange.messages.groupId !== state.lastGroup)
+    ) {
         setState(prev => ({
             ...prev,
             messages: data.onMessagesChange.messages,
@@ -90,7 +116,7 @@ const Chat = () => {
         setState(prev => ({ ...prev, isLoading: true }));
 
         axiosGQLInstance
-            .post('/', { query: graphql.getMessages })
+            .post('/', { query: graphql.getMessages(groupId) })
             .then(res => {
                 setState(prev => ({
                     ...prev,
@@ -107,7 +133,7 @@ const Chat = () => {
         setState(prev => ({ ...prev, isLoading: true }));
 
         axiosGQLInstance
-            .post('/', { query: graphql.deleteMessage(element.id) })
+            .post('/', { query: graphql.deleteMessage(groupId, element.id) })
             .then(res => console.log(res.data))
             .catch(err => {
                 console.log(err);
@@ -121,7 +147,7 @@ const Chat = () => {
 
         axiosGQLInstance
             .post('/', {
-                query: graphql.putMessage(messageToPut.id, newMessage),
+                query: graphql.putMessage(groupId, messageToPut.id, newMessage),
             })
             .then(res => console.log(res.data))
             .catch(err => {
@@ -135,7 +161,7 @@ const Chat = () => {
         setState(prev => ({ ...prev, isLoading: true }));
 
         axiosGQLInstance
-            .post('/', { query: graphql.addMessage(newMessage) })
+            .post('/', { query: graphql.addMessage(groupId, newMessage) })
             .then(() => {
                 setState(prev => ({
                     ...prev,
@@ -178,7 +204,7 @@ const Chat = () => {
     return (
         <div className={classes.Wrapper}>
             <div className={classes.MessagesContainer}>
-                {messages.length
+                {messages
                     ? messages.map(m => {
                         let user = 'another-user';
                         if (m.userName === username) {
@@ -221,8 +247,8 @@ const Chat = () => {
     );
 };
 
-export default withRouter(() => (
+export default withRouter(props => (
     <ApolloProvider client={client}>
-        <Chat />
+        <Chat groupId={props.groupId} />
     </ApolloProvider>
 ));

@@ -34,11 +34,12 @@ export default class GroupList extends Component {
     };
 
     selectChat = group => {
-        console.log(group.id);
-    }
+        this.setState({ selectedGroup: group.id });
+    };
 
     render() {
         const { groups, selectedGroup } = this.state;
+        console.log(selectedGroup);
 
         return (
             <div className={classes.Wrapper}>
@@ -54,7 +55,7 @@ export default class GroupList extends Component {
                     ))}
                 </div>
                 <div className={classes.ChatContainer}>
-                    <Chat groupId={selectedGroup}/>
+                    <Chat groupId={selectedGroup} />
                 </div>
             </div>
         );

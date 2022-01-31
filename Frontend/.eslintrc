@@ -27,7 +27,7 @@
         "sonarjs/cognitive-complexity": ["error", 15],
         "indent": ["error", 4],
         "max-len": ["error", 90, { "ignoreRegExpLiterals": true }],
-        "no-extra-parens": ["error", "all", { "ignoreJSX": "all" }],
+        "no-extra-parens": 0,
         "sonarjs/no-identical-functions": 0,
         "react/prop-types": 0,
         "react/destructuring-assignment": [2, "always"],
