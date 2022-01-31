@@ -69,7 +69,7 @@ const Chat = props => {
         username: credentials.get()?.username,
         lastElement: null,
         newMessage: '',
-        lastGroup: 0,
+        selectedGroup: 0,
         isLoading: false,
         isEdit: false,
     });
@@ -81,15 +81,19 @@ const Chat = props => {
         state.lastElement?.scrollIntoView({ behavior: 'smooth' });
     };
 
-    if (groupId !== state.lastGroup) {
+    if (groupId !== state.selectedGroup) {
         setState(prev => ({
             ...prev,
-            lastGroup: groupId,
+            selectedGroup: groupId,
         }));
 
         axiosGQLInstance
             .post('/', { query: graphql.getMessages(groupId) })
             .then(res => {
+                if (!res.data.data.message) {
+                    return;
+                }
+
                 setState(prev => ({
                     ...prev,
                     messages: res.data.data.message,
@@ -101,33 +105,12 @@ const Chat = props => {
             .finally(() => setState(prev => ({ ...prev, isLoading: false })));
     }
 
-    if (
-        data &&
-        (data.onMessagesChange.messages !== state.messages ||
-            data.onMessagesChange.messages.groupId !== state.lastGroup)
-    ) {
+    if (data && data.onMessagesChange.messages !== state.messages) {
         setState(prev => ({
             ...prev,
             messages: data.onMessagesChange.messages,
         }));
     }
-
-    useEffect(() => {
-        setState(prev => ({ ...prev, isLoading: true }));
-
-        axiosGQLInstance
-            .post('/', { query: graphql.getMessages(groupId) })
-            .then(res => {
-                setState(prev => ({
-                    ...prev,
-                    messages: res.data.data.message,
-                }));
-            })
-            .catch(err => {
-                console.log(err);
-            })
-            .finally(() => setState(prev => ({ ...prev, isLoading: false })));
-    }, []);
 
     const deleteMessage = element => {
         setState(prev => ({ ...prev, isLoading: true }));

@@ -33,13 +33,12 @@ export default class GroupList extends Component {
             });
     };
 
-    selectChat = group => {
-        this.setState({ selectedGroup: group.id });
+    selectChat = groupId => {
+        this.setState({ selectedGroup: groupId });
     };
 
     render() {
         const { groups, selectedGroup } = this.state;
-        console.log(selectedGroup);
 
         return (
             <div className={classes.Wrapper}>
@@ -48,7 +47,7 @@ export default class GroupList extends Component {
                         <GroupBox
                             key={g.id}
                             group={g}
-                            onClick={this.selectChat}
+                            onClick={() => this.selectChat(g.id)}
                             onDelete={() => console.log('delete')}
                             onPut={() => console.log('put')}
                         />
