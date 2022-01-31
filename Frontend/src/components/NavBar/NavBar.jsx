@@ -17,7 +17,7 @@ const NavBar = props => {
                             color: '#fff',
                             textDecoration: 'none',
                         }}>
-                        <FiLogOut size="100%" />
+                        <FiLogOut size="60%" />
                     </Link>
                 </li>
             </ul>

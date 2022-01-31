@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import {
     ApolloClient,
     ApolloProvider,
@@ -59,10 +59,6 @@ const client = new ApolloClient({
     link,
 });
 
-const subscriptions = gql`
-    ${graphql.onMessagesChangeSubscription()}
-`;
-
 const Chat = props => {
     const [state, setState] = useState({
         messages: [],
@@ -74,6 +70,10 @@ const Chat = props => {
         isEdit: false,
     });
     const { groupId } = props;
+
+    const subscriptions = gql`
+        ${graphql.onMessagesChangeSubscription(groupId)}
+    `;
 
     const { data } = useSubscription(subscriptions);
 

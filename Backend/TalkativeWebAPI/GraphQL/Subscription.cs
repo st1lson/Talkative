@@ -12,18 +12,21 @@ namespace TalkativeWebAPI.GraphQL
     {
         [Subscribe(With = nameof(SubscribeToMessagesChangeAsync))]
         [Topic]
-        public OnMessagesChange OnMessagesChange(string jwtToken,
+        public OnMessagesChange OnMessagesChange(int groupId, string jwtToken,
             [EventMessage] OnMessagesChange messages)
         {
             return messages;
         }
 
         public async ValueTask<ISourceStream<OnMessagesChange>> SubscribeToMessagesChangeAsync(
+            int groupId,
             string jwtToken,
             [Service] ITopicEventReceiver eventReceiver,
             CancellationToken cancellationToken)
         {
-            return await eventReceiver.SubscribeAsync<string, OnMessagesChange>("OnMessagesChange_" + jwtToken, cancellationToken).ConfigureAwait(false);
+            return await eventReceiver
+                .SubscribeAsync<string, OnMessagesChange>("OnMessagesChange_Group_" + groupId + "_" + jwtToken,
+                    cancellationToken).ConfigureAwait(false);
         }
     }
 }

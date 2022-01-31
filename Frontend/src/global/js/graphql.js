@@ -87,9 +87,12 @@ const graphql = {
             }
         }
     }`,
-    onMessagesChangeSubscription: () => `
+    onMessagesChangeSubscription: groupId => `
     subscription {
-        onMessagesChange(jwtToken: "${authToken.get()?.token}")
+        onMessagesChange(
+            groupId: ${groupId}, 
+            jwtToken: "${authToken.get()?.token}"
+        )
         {
             messages {
                 id
