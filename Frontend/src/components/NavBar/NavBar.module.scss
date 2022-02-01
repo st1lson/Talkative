@@ -6,8 +6,9 @@ nav {
     ul {
         list-style-type: none;
         margin: 0;
-        padding: 0;
+        padding: 0.2rem;
         background-color: $second-color;
+        box-shadow: 2px 0 5px darken($second-color, 10%);
         position: relative;
         height: 100%;
         overflow: auto;
@@ -15,19 +16,20 @@ nav {
 
         li a {
             display: block;
-            color: $another-user-color;
+            border-radius: 10px;
+            color: $font-color;
             padding: 0.3rem 0.6rem;
             text-decoration: none;
         }
 
         li a.active {
-            background-color: #04aa6d;
-            color: $another-user-color;
+            background-color: darken($second-color, 10%);
+            color: $font-color;
         }
 
         li a:hover:not(.active) {
-            background-color: #555;
-            color: $another-user-color;
+            background-color: darken($second-color, 10%);
+            color: $font-color;
         }
     }
 }

@@ -2,18 +2,19 @@
 
 .InputWrapper {
     display: flex;
-    justify-content: space-between;
-    border-top: 1px solid rgba($font-color, 0.2);
+    justify-content: center;
     width: 100%;
     bottom: 0;
     margin: 0;
     padding: 0;
     font-size: 1.2rem;
+    margin-bottom: 1rem;
 
     input {
         font-size: inherit;
-        width: 90%;
+        width: 80%;
         min-height: 4rem;
+        border-radius: 10px 0 0 10px;
         padding: 0.5rem 1rem 0.5rem 1rem;
         outline: none;
         border: none;
@@ -23,6 +24,7 @@
         cursor: pointer;
         border: none;
         background-color: $another-user-color;
+        border-radius: 0 10px 10px 0;
         width: 10%;
         font-size: 2rem;
         min-height: 4rem;

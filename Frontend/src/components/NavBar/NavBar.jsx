@@ -14,7 +14,6 @@ const NavBar = props => {
                         to="/auth"
                         onClick={onLogout}
                         style={{
-                            color: '#fff',
                             textDecoration: 'none',
                         }}>
                         <FiLogOut size="60%" />

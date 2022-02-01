@@ -2,10 +2,11 @@
 
 .Wrapper {
     height: 100%;
-    background-color: $third-color;
+    background-color: $second-color;
     display: flex;
 
     .GroupsContainer {
+        padding: 0.33rem;
         width: 20%;
     }
 

@@ -3,7 +3,7 @@
 .Wrapper {
     display: flex;
     flex-direction: column;
-    background-color: $main-color;
+    background: $chat-background;
     height: 100vh;
 
     .MessagesContainer {
