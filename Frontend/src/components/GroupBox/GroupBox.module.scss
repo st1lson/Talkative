@@ -5,6 +5,7 @@
     height: 10%;
     border-radius: 15px;
     background-color: transparent;
+    user-select: none;
 
     .GroupNameContainer {
         color: $font-color;
@@ -13,14 +14,14 @@
         font-family: sans-serif;
     }
 
-    &:hover, &:active {
+    &:hover {
         background-color: darken($second-color, 10%);
     }
 
     .PopupMenu {
         display: flex;
         flex-direction: column;
-    
+
         .PopupMenuElement {
             width: 100%;
             cursor: pointer;
@@ -29,10 +30,9 @@
             display: flex;
             white-space: nowrap;
         }
-    
+
         .IconWrapper {
             margin-right: 1.25rem;
         }
     }
-    
 }

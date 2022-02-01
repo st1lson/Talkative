@@ -17,7 +17,11 @@ const GroupBox = props => {
     const onContextMenu = e => {
         e.preventDefault();
 
-        if (!groupRef || !groupRef.current.contains(e.target) || state.showMenu) {
+        if (
+            !groupRef ||
+            !groupRef.current.contains(e.target) ||
+            state.showMenu
+        ) {
             return;
         }
 
@@ -32,7 +36,7 @@ const GroupBox = props => {
         <div
             className={classes.Wrapper}
             role="button"
-            onClick={() => onClick(group)}
+            onClick={() => onClick(group.id)}
             onContextMenu={onContextMenu}
             ref={groupRef}>
             {state.showMenu ? (

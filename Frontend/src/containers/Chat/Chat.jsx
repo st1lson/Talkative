@@ -170,6 +170,8 @@ const Chat = props => {
             messageToPut: element,
             newMessage: element.text,
         }));
+
+        document.getElementById('newMessage').focus();
     };
 
     const onInputChange = e => {
@@ -219,6 +221,7 @@ const Chat = props => {
                     }}></div>
             </div>
             <InputMessage
+                id="newMessage"
                 placeholder="Write a message..."
                 value={newMessage}
                 type="text"

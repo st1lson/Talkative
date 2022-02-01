@@ -17,20 +17,20 @@
         height: 3.5rem;
         width: 50%;
         line-height: 2.5rem;
-        border: 3px solid darken($second-color, 30%);
+        border: 2px solid darken($second-color, 60%);
         border-radius: 10px;
         background: $main-color;
         cursor: pointer;
 
         &:hover {
-            border: 3px solid darken($second-color, 35%);
+            border: 2px solid darken($second-color, 70%);
             background: darken($main-color, 8%);
             transition: all 0.3s ease;
         }
 
         &:disabled {
             background: darken($main-color, 25%);
-            border: 3px solid darken($second-color, 40%);
+            border: 2px solid darken($second-color, 80%);
         }
     }
 }
