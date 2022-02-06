@@ -47,6 +47,7 @@ export default class GroupList extends Component {
                         <GroupBox
                             key={g.id}
                             group={g}
+                            selected={selectedGroup === g.id}
                             onClick={this.selectChat}
                             onDelete={() => console.log('delete')}
                             onPut={() => console.log('put')}

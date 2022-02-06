@@ -4,7 +4,7 @@ import ContextMenu from '../ContextMenu/ContextMenu';
 import classes from './GroupBox.module.scss';
 
 const GroupBox = props => {
-    const { group, onClick, onDelete, onPut } = props;
+    const { group, selected, onClick, onDelete, onPut } = props;
 
     const [state, setState] = useState({
         xPos: '0px',
@@ -34,9 +34,15 @@ const GroupBox = props => {
 
     return (
         <div
-            className={classes.Wrapper}
+            className={`${classes.Wrapper}  ${selected ? classes.active : null}`}
             role="button"
-            onClick={() => onClick(group.id)}
+            onClick={() => {
+                if (selected) {
+                    return;
+                }
+                console.log(groupRef.current);
+                onClick(group.id);
+            }}
             onContextMenu={onContextMenu}
             ref={groupRef}>
             {state.showMenu ? (
@@ -81,7 +87,7 @@ const GroupBox = props => {
                             <div className={classes.IconWrapper}>
                                 <FiDelete />
                             </div>
-                            Delete
+                            Leave
                         </div>
                     </div>
                 </ContextMenu>
