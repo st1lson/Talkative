@@ -13,6 +13,11 @@
         font-family: sans-serif;
     }
 
+    .LastMessageContainer {
+        font-size: 1.1rem;
+        color: $font-color;
+    }
+
     &:hover {
         background-color: darken($second-color, 10%);
     }
@@ -43,7 +48,7 @@
 
 .active {
     background-color: $active-cgroup-color;
-    .GroupNameContainer {
+    .GroupNameContainer, .LastMessageContainer {
         color: $active-font-color;
     }
 

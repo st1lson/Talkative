@@ -34,13 +34,15 @@ const GroupBox = props => {
 
     return (
         <div
-            className={`${classes.Wrapper}  ${selected ? classes.active : null}`}
+            className={`${classes.Wrapper}  ${
+                selected ? classes.active : null
+            }`}
             role="button"
             onClick={() => {
                 if (selected) {
                     return;
                 }
-                console.log(groupRef.current);
+
                 onClick(group.id);
             }}
             onContextMenu={onContextMenu}
@@ -94,6 +96,9 @@ const GroupBox = props => {
             ) : null}
             <div className={classes.GroupNameContainer}>
                 <span>{group.name}</span>
+            </div>
+            <div className={classes.LastMessageContainer}>
+                <span>{group?.messages?.edges[0]?.node?.text}</span>
             </div>
         </div>
     );

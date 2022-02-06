@@ -17,6 +17,13 @@ const graphql = {
         group {
             id
             name
+            messages(last: 1) {
+                edges{
+                    node {
+                        text
+                    }
+                }
+            }
         }
     }`,
     addMessage: (groupId, message) => `

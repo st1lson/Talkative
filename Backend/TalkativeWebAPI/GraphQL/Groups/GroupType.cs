@@ -2,6 +2,7 @@
 using HotChocolate.Types;
 using System.Linq;
 using TalkativeWebAPI.Data.DbContexts;
+using TalkativeWebAPI.GraphQL.Messages;
 using TalkativeWebAPI.Models;
 
 namespace TalkativeWebAPI.GraphQL.Groups
@@ -27,6 +28,7 @@ namespace TalkativeWebAPI.GraphQL.Groups
             descriptor
                 .Field(g => g.Messages)
                 .ResolveWith<Resolvers>(r => r.GetMessages(default!, default!))
+                .UsePaging<MessageType>()
                 .UseDbContext<MessagesDbContext>()
                 .Description("All messages which were written in the specified group.");
         }
