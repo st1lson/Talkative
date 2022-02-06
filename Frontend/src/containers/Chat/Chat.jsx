@@ -19,6 +19,7 @@ import classes from './Chat.module.scss';
 import axiosGQLInstance from '../../global/js/axiosGQLInstance';
 import graphql from '../../global/js/graphql';
 import InputMessage from '../../components/InputMessage/InputMessage';
+import NoContentBox from '../../components/NoContentBox/NoContentBox';
 
 const wsLink = new WebSocketLink({
     uri: 'wss://localhost:5001/graphql',
@@ -189,8 +190,8 @@ const Chat = props => {
     return (
         <div className={classes.Wrapper}>
             <div className={classes.MessagesContainer}>
-                {messages
-                    ? messages.map(m => {
+                {messages.length ? (
+                    messages.map(m => {
                         let user = 'another-user';
                         if (m.userName === username) {
                             user = 'user';
@@ -206,7 +207,9 @@ const Chat = props => {
                             />
                         );
                     })
-                    : null}
+                ) : (
+                    <NoContentBox>There are no messages yet.</NoContentBox>
+                )}
                 <div
                     style={{ float: 'left', clear: 'both' }}
                     ref={el => {

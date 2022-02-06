@@ -4,6 +4,7 @@ import axiosGQLInstance from '../../global/js/axiosGQLInstance';
 import GroupBox from '../../components/GroupBox/GroupBox';
 import Chat from '../Chat/Chat';
 import classes from './GroupList.module.scss';
+import NoContentBox from '../../components/NoContentBox/NoContentBox';
 
 export default class GroupList extends Component {
     constructor(props) {
@@ -43,16 +44,20 @@ export default class GroupList extends Component {
         return (
             <div className={classes.Wrapper}>
                 <div className={classes.GroupsContainer}>
-                    {groups.map(g => (
-                        <GroupBox
-                            key={g.id}
-                            group={g}
-                            selected={selectedGroup === g.id}
-                            onClick={this.selectChat}
-                            onDelete={() => console.log('delete')}
-                            onPut={() => console.log('put')}
-                        />
-                    ))}
+                    {groups.length ? (
+                        groups.map(g => (
+                            <GroupBox
+                                key={g.id}
+                                group={g}
+                                selected={selectedGroup === g.id}
+                                onClick={this.selectChat}
+                                onDelete={() => console.log('delete')}
+                                onPut={() => console.log('put')}
+                            />
+                        ))
+                    ) : (
+                        <NoContentBox>There are no groups yet.</NoContentBox>
+                    )}
                 </div>
                 <div className={classes.ChatContainer}>
                     <Chat groupId={selectedGroup} />

@@ -47,12 +47,13 @@
 }
 
 .active {
-    background-color: $active-cgroup-color;
-    .GroupNameContainer, .LastMessageContainer {
+    background-color: $active-group-color;
+    .GroupNameContainer,
+    .LastMessageContainer {
         color: $active-font-color;
     }
 
     &:hover {
-        background-color: darken($active-cgroup-color, 5%);
+        background-color: darken($active-group-color, 5%);
     }
 }

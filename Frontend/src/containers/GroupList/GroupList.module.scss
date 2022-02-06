@@ -11,6 +11,12 @@
         width: 20%;
     }
 
+    .NoGroupsContainer {
+        position: fixed;
+        justify-content: center;
+        background-color: darken($another-user-color, 50%);
+    }
+
     .ChatContainer {
         width: 80%;
     }
