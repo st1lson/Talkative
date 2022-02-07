@@ -67,7 +67,7 @@ const GroupBox = props => {
                                     ...prev,
                                     showMenu: false,
                                 }));
-                                onPut(group);
+                                onPut(group.id, 'new name here');
                             }}>
                             <div className={classes.IconWrapper}>
                                 <FiEdit2 />
@@ -84,7 +84,7 @@ const GroupBox = props => {
                                     ...prev,
                                     showMenu: false,
                                 }));
-                                onDelete(group);
+                                onDelete(group.id);
                             }}>
                             <div className={classes.IconWrapper}>
                                 <FiDelete />

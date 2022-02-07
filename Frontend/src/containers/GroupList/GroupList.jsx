@@ -38,6 +38,18 @@ export default class GroupList extends Component {
         this.setState({ selectedGroup: groupId });
     };
 
+    delteChat = groupId => {
+        // delete method
+    }
+
+    putChat = (groupId, name) => {
+        axiosGQLInstance
+            .post('/', { query: graphql.putGroup(groupId, name) })
+            .catch(err => {
+                console.log(err);
+            });
+    }
+
     render() {
         const { groups, selectedGroup } = this.state;
 
@@ -51,8 +63,8 @@ export default class GroupList extends Component {
                                 group={g}
                                 selected={selectedGroup === g.id}
                                 onClick={this.selectChat}
-                                onDelete={() => console.log('delete')}
-                                onPut={() => console.log('put')}
+                                onDelete={this.delteChat}
+                                onPut={this.putChat}
                             />
                         ))
                     ) : (

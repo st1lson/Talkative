@@ -127,6 +127,7 @@ namespace TalkativeWebAPI.GraphQL
             return new PutMessagePayload(messageDto);
         }
 
+        [Authorize(Policy = "Auth")]
         [UseDbContext(typeof(MessagesDbContext))]
         public async Task<PutGroupPayload> PutGroupAsync(PutGroupInput input,
             [Service] IHttpContextAccessor accessor,

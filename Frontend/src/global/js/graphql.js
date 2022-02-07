@@ -70,7 +70,7 @@ const graphql = {
     putGroup: (groupId, name) => `
     mutation {
         putGroup(input: {
-            groupId:: ${groupId},
+            groupId: ${groupId},
             name: "${name}"
         })
         {
