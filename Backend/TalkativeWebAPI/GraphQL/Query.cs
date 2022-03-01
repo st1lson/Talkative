@@ -46,14 +46,32 @@ namespace TalkativeWebAPI.GraphQL
         [UseDbContext(typeof(MessagesDbContext))]
         [UseFiltering]
         [UseSorting]
-        public IQueryable<Group> GetGroup([Service] IHttpContextAccessor accessor,
+        public IQueryable<GroupDto> GetGroup([Service] IHttpContextAccessor accessor,
             [ScopedService] MessagesDbContext context)
         {
             string userId = accessor.HttpContext!.User.Claims.First().Value;
 
-            return context.UserGroups
+            IQueryable<GroupDto> groups = context.UserGroups
                 .Where(ug => ug.UserId == userId)
-                .Select(ug => ug.Group);
+                .Select(ug => ug.Group)
+                .Select(g => new GroupDto()
+                {
+                    Id = g.Id,
+                    Name = g.Name,
+                    LastMessage = g.Messages
+                        .OrderBy(m => m.Date)
+                        .Select(m => new MessageDto()
+                        {
+                            Id = m.Id,
+                            Text = m.Text,
+                            Date = m.Date,
+                            GroupId = m.GroupId,
+                            UserName = context.Users.FirstOrDefault(u => u.Id == m.UserId)!.UserName
+                        })
+                        .FirstOrDefault()
+                });
+
+            return groups;
         }
     }
 }

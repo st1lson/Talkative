@@ -17,26 +17,9 @@ const graphql = {
         group {
             id
             name
-            messages(last: 1) {
-                edges{
-                    node {
-                        text
-                    }
-                }
-            }
-        }
-    }`,
-    addMessage: (groupId, message) => `
-    mutation {
-        addMessage(input: {
-            groupId: ${groupId},
-            text: "${message}"
-        })
-        {
-            message {
-                id
+            lastMessage {
                 text
-                date
+                userName
             }
         }
     }`,

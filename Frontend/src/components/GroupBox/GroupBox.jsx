@@ -98,7 +98,8 @@ const GroupBox = props => {
                 <span>{group.name}</span>
             </div>
             <div className={classes.LastMessageContainer}>
-                <span>{group?.messages?.edges[0]?.node?.text}</span>
+                <span>{group?.lastMessage?.userName}</span>
+                <span>{group?.lastMessage?.text}</span>
             </div>
         </div>
     );
