@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { FiEdit2, FiDelete } from 'react-icons/fi';
+import credentials from '../../global/js/credentials';
 import ContextMenu from '../ContextMenu/ContextMenu';
+import dayjs from 'dayjs';
 import classes from './GroupBox.module.scss';
 
 const GroupBox = props => {
@@ -11,6 +13,10 @@ const GroupBox = props => {
         yPos: '0px',
         showMenu: false,
     });
+
+    if (group?.lastMessage?.userName === credentials.get().username) {
+        group.lastMessage.userName = 'You';
+    }
 
     const groupRef = React.createRef();
 
@@ -98,7 +104,8 @@ const GroupBox = props => {
                 <span>{group.name}</span>
             </div>
             <div className={classes.LastMessageContainer}>
-                <span>{`${group?.lastMessage?.userName}: ${group?.lastMessage?.text}`}</span>
+                <span className={classes.LastMessage}>{`${group?.lastMessage?.userName}: ${group?.lastMessage?.text}`}</span>
+                <span className={classes.MessageDate}>{dayjs(group?.lastMessage?.date).format('MMMM D, YYYY')}</span>
             </div>
         </div>
     );
