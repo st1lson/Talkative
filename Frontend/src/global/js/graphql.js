@@ -23,6 +23,20 @@ const graphql = {
             }
         }
     }`,
+    addMessage: (groupId, text) => `
+    mutation {
+        addMessage(input: {
+            groupId: ${groupId},
+            text: "${text}"
+        })
+        {
+            message {
+                id
+                text
+                date
+            }
+        }
+    }`,
     addGroup: name => `
     mutation {
         addGroup(input: {

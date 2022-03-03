@@ -8,7 +8,7 @@
 
     .GroupNameContainer {
         color: $font-color;
-        padding: 1rem;
+        padding: 0.33rem;
         font-size: 1.5rem;
         font-family: sans-serif;
     }
@@ -17,8 +17,14 @@
         display: flex;
         flex-direction: row;
         justify-content: space-between;
-        font-size: 1.1rem;
-        color: $font-color;
+
+        span {
+            font-size: 1rem;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            padding: 0.5rem;
+        }
     }
 
     &:hover {

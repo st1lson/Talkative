@@ -59,7 +59,7 @@ namespace TalkativeWebAPI.GraphQL
                     Id = g.Id,
                     Name = g.Name,
                     LastMessage = g.Messages
-                        .OrderBy(m => m.Date)
+                        .OrderByDescending(m => m.Date)
                         .Select(m => new MessageDto()
                         {
                             Id = m.Id,
