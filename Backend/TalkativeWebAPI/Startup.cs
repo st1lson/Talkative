@@ -2,6 +2,7 @@ using GraphQL.Server.Ui.Voyager;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -51,6 +52,10 @@ namespace TalkativeWebAPI
             services.AddScoped<JwtTokenCreator>();
 
             services.AddScoped<JwtRefreshTokenHandler>();
+
+            services.AddScoped<HttpContextAccessor>();
+
+            services.AddScoped<FileUploader>();
 
             services.AddScoped(provider =>
                 provider.GetRequiredService<IDbContextFactory<MessagesDbContext>>().CreateDbContext());
