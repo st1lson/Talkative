@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TalkativeWebAPI.Data.DbContexts;
 
 namespace TalkativeWebAPI.Migrations
 {
     [DbContext(typeof(MessagesDbContext))]
-    partial class MessagesDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220305094020_AddAvatarToUser")]
+    partial class AddAvatarToUser
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
