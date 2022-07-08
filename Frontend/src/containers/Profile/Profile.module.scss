@@ -1,17 +1,30 @@
 .profileContrainer {
+    min-height: 100%;
     display: flex;
     flex-direction: row;
-    align-items: center;
 
     .userDataContainer {
         display: flex;
         flex-direction: column;
+        justify-content: center;
         padding: 1.3rem;
         width: 50%;
+
+        input,
+        button {
+            margin-top: 1.3rem;
+            padding: 0.7rem;
+        }
     }
 
     img {
         width: 50%;
         padding: 5rem;
+    }
+
+    .buttonsWrapper {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-evenly;
     }
 }

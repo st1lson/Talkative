@@ -15,6 +15,10 @@ const Profile = props => {
     //inputs
     const [userNameDisabledValue, setUserNameDisabledValue] = useState(true);
     const [emailDisabledValue, setEmailDisabledValue] = useState(true);
+
+    //change in progress
+    const [userNameInChange, setUserNameInChange] = useState(false);
+    const [emailInChange, setEmailInChange] = useState(false);
     const [passwordInChange, setPasswordInChange] = useState(false);
 
     return (
@@ -27,48 +31,95 @@ const Profile = props => {
                     disabled={userNameDisabledValue}
                     onChange={e => setNewUserName(e.target.value)}
                 />
-                <button onClick={() => setUserNameDisabledValue(false)}>
-                    Change your user name
-                </button>
+                {userNameInChange ? (
+                    <div className={classes.buttonsWrapper}>
+                        <button
+                            onClick={() => {
+                                setUserNameDisabledValue(true);
+                                setUserNameInChange(false);
+                            }}>
+                            Back
+                        </button>
+                        <button onClick={() => console.log('change email')}>
+                            Submit
+                        </button>
+                    </div>
+                ) : (
+                    <button
+                        onClick={() => {
+                            setUserNameDisabledValue(false);
+                            setUserNameInChange(true);
+                        }}>
+                        Change your user name
+                    </button>
+                )}
                 <Input
                     value={newEmail}
-                    type="email"
+                    type="text"
                     name="newEmail"
                     disabled={emailDisabledValue}
                     onChange={e => setNewEmail(e.target.value)}
                 />
-                <button onClick={() => setEmailDisabledValue(false)}>
-                    Change your email
-                </button>
+                {emailInChange ? (
+                    <div className={classes.buttonsWrapper}>
+                        <button
+                            onClick={() => {
+                                setEmailDisabledValue(true);
+                                setEmailInChange(false);
+                            }}>
+                            Back
+                        </button>
+                        <button onClick={() => console.log('change email')}>
+                            Submit
+                        </button>
+                    </div>
+                ) : (
+                    <button
+                        onClick={() => {
+                            setEmailDisabledValue(false);
+                            setEmailInChange(true);
+                        }}>
+                        Change your email
+                    </button>
+                )}
                 {passwordInChange ? (
                     <div className={classes.passwordWrapper}>
                         <Input
+                            label="Enter your current password"
+                            labelColor="white"
                             value={password}
                             type="password"
                             name="password"
-                            disabled={true}
+                            disabled={false}
                             onChange={e => setPassword(e.target.value)}
                         />
                         <Input
+                            label="Enter your new password"
+                            labelColor="white"
                             value={newPassword}
                             type="password"
                             name="newPassword"
-                            disabled={true}
+                            disabled={false}
                             onChange={e => setNewPassword(e.target.value)}
                         />
                         <Input
+                            label="Confirm your new password"
+                            labelColor="white"
                             value={confirmedPassword}
                             type="password"
                             name="confirmedPassword"
-                            disabled={true}
+                            disabled={false}
                             onChange={e => setConfirmedPassword(e.target.value)}
                         />
-                        <button onClick={() => setPasswordInChange(false)}>
-                            Back
-                        </button>
-                        <button onClick={() => console.log('change password')}>
-                            Continue
-                        </button>
+                        <div className={classes.buttonsWrapper}>
+                            <button onClick={() => setPasswordInChange(false)}>
+                                Back
+                            </button>
+                            <button
+                                onClick={() => console.log('change password')}>
+                                Continue
+                            </button>
+                        </div>
                     </div>
                 ) : (
                     <button onClick={() => setPasswordInChange(true)}>
