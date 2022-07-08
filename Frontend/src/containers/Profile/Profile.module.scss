@@ -1,0 +1,17 @@
+.profileContrainer {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+
+    .userDataContainer {
+        display: flex;
+        flex-direction: column;
+        padding: 1.3rem;
+        width: 50%;
+    }
+
+    img {
+        width: 50%;
+        padding: 5rem;
+    }
+}

@@ -6,6 +6,7 @@ import Register from './containers/Auth/Register/Register';
 import authToken from './global/js/authToken';
 import credentials from './global/js/credentials';
 import GroupList from './containers/GroupList/GroupList';
+import Profile from './containers/Profile/Profile';
 
 export default class App extends Component {
     constructor(props) {
@@ -42,11 +43,21 @@ export default class App extends Component {
         return (
             <Layout onLogout={this.onLogout}>
                 {isAuthenticated ? (
-                    <Switch>
+                    /* <Switch>
                         <Route path="/chat" exact>
                             <GroupList />
                         </Route>
                         <Redirect to="/chat" />
+                    </Switch> */
+                    <Switch>
+                        <Route path="/profile" exact>
+                            <Profile
+                                userName="Eternity"
+                                email="oleg@gmail.com"
+                                imageUrl="https://images8.alphacoders.com/942/942011.png"
+                            />
+                        </Route>
+                        <Redirect to="/profile" />
                     </Switch>
                 ) : (
                     <Switch>

@@ -104,8 +104,14 @@ const GroupBox = props => {
                 <span>{group.name}</span>
             </div>
             <div className={classes.LastMessageContainer}>
-                <span className={classes.LastMessage}>{`${group?.lastMessage?.userName}: ${group?.lastMessage?.text}`}</span>
-                <span className={classes.MessageDate}>{dayjs(group?.lastMessage?.date).format('MMMM D, YYYY')}</span>
+                <span
+                    className={
+                        classes.LastMessage
+                    }>{`${group?.lastMessage?.userName}:
+                     ${group?.lastMessage?.text}`}</span>
+                <span className={classes.MessageDate}>
+                    {dayjs(group?.lastMessage?.date).format('MMMM D, YYYY')}
+                </span>
             </div>
         </div>
     );

@@ -10,8 +10,8 @@ using TalkativeWebAPI.Data.DbContexts;
 namespace TalkativeWebAPI.Migrations
 {
     [DbContext(typeof(MessagesDbContext))]
-    [Migration("20220128100909_InitialMigration")]
-    partial class InitialMigration
+    [Migration("20220708154646_InitialCreate")]
+    partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -160,6 +160,9 @@ namespace TalkativeWebAPI.Migrations
                     b.Property<int>("AccessFailedCount")
                         .HasColumnType("int");
 
+                    b.Property<string>("AvatarUrl")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
                         .HasColumnType("nvarchar(max)");
@@ -227,13 +230,19 @@ namespace TalkativeWebAPI.Migrations
                     b.Property<DateTime>("CreationDate")
                         .HasColumnType("datetime2");
 
+                    b.Property<string>("CreatorId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
-                    b.ToTable("Group");
+                    b.HasIndex("CreatorId");
+
+                    b.ToTable("Groups");
                 });
 
             modelBuilder.Entity("TalkativeWebAPI.Models.Message", b =>
@@ -286,7 +295,7 @@ namespace TalkativeWebAPI.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("UserGroup");
+                    b.ToTable("UserGroups");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -340,6 +349,17 @@ namespace TalkativeWebAPI.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("TalkativeWebAPI.Models.Group", b =>
+                {
+                    b.HasOne("TalkativeWebAPI.Models.ApplicationUser", "Creator")
+                        .WithMany("Groups")
+                        .HasForeignKey("CreatorId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.Navigation("Creator");
+                });
+
             modelBuilder.Entity("TalkativeWebAPI.Models.Message", b =>
                 {
                     b.HasOne("TalkativeWebAPI.Models.Group", "Group")
@@ -380,6 +400,8 @@ namespace TalkativeWebAPI.Migrations
 
             modelBuilder.Entity("TalkativeWebAPI.Models.ApplicationUser", b =>
                 {
+                    b.Navigation("Groups");
+
                     b.Navigation("Messages");
 
                     b.Navigation("UserGroups");

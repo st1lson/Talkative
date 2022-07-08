@@ -1,9 +1,9 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
-using System;
+﻿using System;
+using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace TalkativeWebAPI.Migrations.RefreshTokens
+namespace TalkativeWebAPI.Migrations.RefreshTokensDb
 {
-    public partial class AddJwtToDb : Migration
+    public partial class InitialCreate : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

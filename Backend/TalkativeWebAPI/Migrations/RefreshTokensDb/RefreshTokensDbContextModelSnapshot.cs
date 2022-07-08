@@ -3,17 +3,15 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
-using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TalkativeWebAPI.Data.DbContexts;
 
-namespace TalkativeWebAPI.Migrations.RefreshTokens
+namespace TalkativeWebAPI.Migrations.RefreshTokensDb
 {
     [DbContext(typeof(RefreshTokensDbContext))]
-    [Migration("20220110213533_AddJwtToDb")]
-    partial class AddJwtToDb
+    partial class RefreshTokensDbContextModelSnapshot : ModelSnapshot
     {
-        protected override void BuildTargetModel(ModelBuilder modelBuilder)
+        protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

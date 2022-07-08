@@ -40,7 +40,7 @@ export default class GroupList extends Component {
 
     delteChat = groupId => {
         // delete method
-    }
+    };
 
     putChat = (groupId, name) => {
         axiosGQLInstance
@@ -48,7 +48,7 @@ export default class GroupList extends Component {
             .catch(err => {
                 console.log(err);
             });
-    }
+    };
 
     render() {
         const { groups, selectedGroup } = this.state;

@@ -96,7 +96,7 @@ namespace TalkativeWebAPI.Controllers
             }
             catch (Exception e)
             {
-                return BadRequest();
+                return BadRequest(new { Error = e.Message });
             }
 
             return Ok();

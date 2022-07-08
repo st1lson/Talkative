@@ -2,6 +2,9 @@
 
 nav {
     width: 5%;
+    top: 0;
+    bottom: 0;
+    position: fixed;
 
     ul {
         list-style-type: none;

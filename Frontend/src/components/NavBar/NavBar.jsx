@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { FiLogOut } from 'react-icons/fi';
+import { CgProfile } from 'react-icons/cg';
 import './NavBar.module.scss';
 
 const NavBar = props => {
@@ -17,6 +18,16 @@ const NavBar = props => {
                             textDecoration: 'none',
                         }}>
                         <FiLogOut size="60%" />
+                    </Link>
+                </li>
+                <li>
+                    <Link
+                        to="/auth"
+                        onClick={onLogout}
+                        style={{
+                            textDecoration: 'none',
+                        }}>
+                        <CgProfile size="60%" />
                     </Link>
                 </li>
             </ul>
