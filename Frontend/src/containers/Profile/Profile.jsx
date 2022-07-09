@@ -3,6 +3,28 @@ import axiosRESTInstance from '../../global/js/axiosRESTInstance';
 import Input from '../../components/Input/Input';
 import classes from './Profile.module.scss';
 
+const changePassword = (currentPassword, newPassword, confirmedPassword) => {
+    if (!currentPassword || !newPassword || !confirmedPassword) {
+        return;
+    }
+
+    if (newPassword !== confirmedPassword) {
+        console.error('New password and confirmed password does not equal');
+        return;
+    }
+
+    const data = { currentPassword, newPassword };
+
+    axiosRESTInstance
+        .put('profiles/password', data)
+        .then(res => {
+            console.log(res.data);
+        })
+        .catch(err => {
+            console.error(err);
+        });
+};
+
 const saveImage = image => {
     if (!image) {
         return;
@@ -149,7 +171,13 @@ const Profile = props => {
                             </button>
                             <button
                                 className={classes.button2}
-                                onClick={() => console.log('change password')}>
+                                onClick={() =>
+                                    changePassword(
+                                        password,
+                                        newPassword,
+                                        confirmedPassword,
+                                    )
+                                }>
                                 Submit
                             </button>
                         </div>

@@ -29,6 +29,32 @@ namespace TalkativeWebAPI.Controllers
             _userManager = userManager;
         }
 
+        [HttpPut]
+        [Route("password")]
+        [Authorize(Policy = "Auth")]
+        public async Task<IActionResult> ChangePassword(ChangePasswordInput input)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(new { Error = "The input can not be empty" });
+            }
+
+            string userId = User.Claims.First().Value;
+            ApplicationUser user = _userManager.Users.FirstOrDefault(u => u.Id == userId);
+            if (user is null)
+            {
+                return BadRequest();
+            }
+
+            IdentityResult result = await _userManager.ChangePasswordAsync(user, input.CurrentPassword, input.NewPassword);
+            if (!result.Succeeded)
+            {
+                return BadRequest(new { Errors = result.Errors });
+            }
+
+            return Ok(new { Data = input.NewPassword });
+        }
+
         [HttpPost]
         [Route("upload")]
         [Authorize(Policy = "Auth")]
