@@ -1,9 +1,9 @@
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Web;
 using TalkativeWebAPI.Data.DbContexts;
 using TalkativeWebAPI.Dtos.Profile;
 using TalkativeWebAPI.Models;
@@ -27,6 +27,30 @@ namespace TalkativeWebAPI.Controllers
             _context = context;
             _uploader = uploader;
             _userManager = userManager;
+        }
+
+        [HttpPut]
+        [Route("email")]
+        [Authorize(Policy = "Auth")]
+        public async Task<IActionResult> ChangeEmail(ChangeEmailInput input)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest();
+            }
+
+            string userId = User.Claims.First().Value;
+            ApplicationUser user = _userManager.Users.FirstOrDefault(u => u.Id == userId);
+
+            string confirmationToken = await _userManager.GenerateChangeEmailTokenAsync(user, input.NewEmail);
+            
+            IdentityResult result = await _userManager.ChangeEmailAsync(user, input.NewEmail, confirmationToken);
+            if (!result.Succeeded)
+            {
+                return BadRequest(new { Errors = result.Errors });
+            }
+
+            return Ok(new { Data = input.NewEmail });
         }
 
         [HttpPut]

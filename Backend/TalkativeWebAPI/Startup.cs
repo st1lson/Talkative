@@ -70,6 +70,7 @@ namespace TalkativeWebAPI
                     options.Password.RequiredLength = 6;
                     options.Password.RequiredUniqueChars = 1;
                 })
+                .AddTokenProvider<DataProtectorTokenProvider<ApplicationUser>>(TokenOptions.DefaultProvider)
                 .AddEntityFrameworkStores<MessagesDbContext>();
 
             string signingKeyPhrase = Configuration["SigningKeyPhrase"];

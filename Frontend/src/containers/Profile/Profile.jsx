@@ -3,6 +3,23 @@ import axiosRESTInstance from '../../global/js/axiosRESTInstance';
 import Input from '../../components/Input/Input';
 import classes from './Profile.module.scss';
 
+const changeEmail = newEmail => {
+    if (!newEmail) {
+        return;
+    }
+
+    const data = { newEmail };
+
+    axiosRESTInstance
+        .put('profiles/email', data)
+        .then(res => {
+            console.log(res.data);
+        })
+        .catch(err => {
+            console.error(err);
+        });
+};
+
 const changePassword = (currentPassword, newPassword, confirmedPassword) => {
     if (!currentPassword || !newPassword || !confirmedPassword) {
         return;
@@ -121,7 +138,13 @@ const Profile = props => {
                         </button>
                         <button
                             className={classes.button2}
-                            onClick={() => console.log('change email')}>
+                            onClick={() => {
+                                if (email === newEmail) {
+                                    return;
+                                }
+
+                                changeEmail(newEmail);
+                            }}>
                             Submit
                         </button>
                     </div>
