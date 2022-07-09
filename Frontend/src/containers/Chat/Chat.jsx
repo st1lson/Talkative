@@ -126,6 +126,9 @@ const Chat = props => {
 
     const putMessage = () => {
         const { messageToPut, newMessage } = state;
+        if (messageToPut.text === newMessage) {
+            return;
+        }
 
         setState(prev => ({ ...prev, isLoading: true }));
 
@@ -141,6 +144,10 @@ const Chat = props => {
 
     const createMessage = () => {
         const { newMessage } = state;
+
+        if (!newMessage) {
+            return;
+        }
 
         setState(prev => ({ ...prev, isLoading: true }));
 

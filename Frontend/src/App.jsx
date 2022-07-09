@@ -43,21 +43,11 @@ export default class App extends Component {
         return (
             <Layout onLogout={this.onLogout}>
                 {isAuthenticated ? (
-                    /* <Switch>
-                        <Route path="/chat" exact>
+                    <Switch>
+                        <Route path="/chats" exact>
                             <GroupList />
                         </Route>
-                        <Redirect to="/chat" />
-                    </Switch> */
-                    <Switch>
-                        <Route path="/profile" exact>
-                            <Profile
-                                userName="username"
-                                email="email@gmail.com"
-                                imageUrl="https://images8.alphacoders.com/942/942011.png"
-                            />
-                        </Route>
-                        <Redirect to="/profile" />
+                        <Redirect to="/chats" />
                     </Switch>
                 ) : (
                     <Switch>

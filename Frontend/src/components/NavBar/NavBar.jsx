@@ -17,7 +17,7 @@ const NavBar = props => {
                         style={{
                             textDecoration: 'none',
                         }}>
-                        <FiLogOut size="60%" />
+                        <CgProfile size="60%" />
                     </Link>
                 </li>
                 <li>
@@ -27,7 +27,7 @@ const NavBar = props => {
                         style={{
                             textDecoration: 'none',
                         }}>
-                        <CgProfile size="60%" />
+                        <FiLogOut size="60%" />
                     </Link>
                 </li>
             </ul>
