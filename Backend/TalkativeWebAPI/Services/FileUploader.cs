@@ -1,20 +1,28 @@
 ﻿using System;
 using System.IO;
+using System.Threading.Tasks;
 using TalkativeWebAPI.Dtos.Profile;
 
 namespace TalkativeWebAPI.Services
 {
     public class FileUploader
     {
-        public string UploadImage(UploadProfileImageInput input)
+        public async Task<string> UploadImage(UploadProfileImageInput input)
         {
             string uniqueFileName = null;
             if (input.Image is not null)
             {
                 uniqueFileName = Guid.NewGuid().ToString() + "_" + input.Image.FileName;
                 string filePath = Path.Combine("images", uniqueFileName);
-                using FileStream fileStream = new(filePath, FileMode.Create);
-                input.Image.CopyTo(fileStream);
+                using FileStream fileStream = File.Create(filePath);
+                try
+                {
+                    await input.Image.CopyToAsync(fileStream);
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e.Message);
+                }
             }
 
             return uniqueFileName;

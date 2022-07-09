@@ -41,12 +41,17 @@
         align-items: center;
         padding: 1.3rem;
 
-        img {
-            padding: 5rem;
-            overflow: hidden;
-            border-radius: 50%;
+        .imageContainer {
+            img {
+                cursor: pointer;
+                border-radius: 50%;
+            }
+
+            input {
+                display: none;
+            }
         }
-        
+
         button {
             margin-top: 0.7rem;
         }

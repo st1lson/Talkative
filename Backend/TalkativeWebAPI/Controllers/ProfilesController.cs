@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -17,32 +17,30 @@ namespace TalkativeWebAPI.Controllers
     {
         private readonly MessagesDbContext _context;
         private readonly UserManager<ApplicationUser> _userManager;
-        private readonly IHttpContextAccessor _accessor;
         private readonly FileUploader _uploader;
 
         public ProfilesController(
             MessagesDbContext context,
             FileUploader uploader,
-            HttpContextAccessor accessor,
             UserManager<ApplicationUser> userManager)
         {
             _context = context;
             _uploader = uploader;
-            _accessor = accessor;
             _userManager = userManager;
         }
 
         [HttpPost]
         [Route("upload")]
+        [Authorize(Policy = "Auth")]
         public async Task<IActionResult> UploadImageAsync([FromForm] UploadProfileImageInput input)
         {
-            string fileName = _uploader.UploadImage(input);
+            string fileName = await _uploader.UploadImage(input);
             if (fileName is null)
             {
                 return BadRequest();
             }
 
-            string userId = _accessor.HttpContext!.User.Claims.First().Value;
+            string userId = User.Claims.First().Value;
             ApplicationUser user = _userManager.Users.FirstOrDefault(u => u.Id == userId);
             if (user is null)
             {

@@ -1,6 +1,25 @@
 import React, { useState, useRef } from 'react';
+import axiosRESTInstance from '../../global/js/axiosRESTInstance';
 import Input from '../../components/Input/Input';
 import classes from './Profile.module.scss';
+
+const saveImage = image => {
+    if (!image) {
+        return;
+    }
+
+    const data = new FormData();
+    data.append('image', image);
+
+    axiosRESTInstance
+        .post('profiles/upload', data)
+        .then(res => {
+            console.log(res);
+        })
+        .catch(err => {
+            console.log(err);
+        });
+};
 
 const Profile = props => {
     const { userName, email, imageUrl } = props;
@@ -142,21 +161,35 @@ const Profile = props => {
                 )}
             </div>
             <div className={classes.imageWrapper}>
-                <img src={imageUrl} ref={imageRef} width="600" height="600" />
-                <input
-                    type="file"
-                    onChange={e => {
-                        const image = e.target?.files[0];
-                        setImage(image);
-                        const reader = new FileReader();
-                        reader.addEventListener('load', () => {
-                            imageRef.current.src = reader.result;
-                        });
-                        reader.readAsDataURL(image);
-                        setIsImageUpdated(true);
-                    }}
-                />
-                <button disabled={!isImageUpdated}>Save image</button>
+                <div className={classes.imageContainer}>
+                    <label htmlFor="file-input">
+                        <img
+                            src={imageUrl}
+                            ref={imageRef}
+                            width="600"
+                            height="600"
+                        />
+                    </label>
+                    <input
+                        id="file-input"
+                        type="file"
+                        onChange={e => {
+                            const image = e.target?.files[0];
+                            setImage(image);
+                            const reader = new FileReader();
+                            reader.addEventListener('load', () => {
+                                imageRef.current.src = reader.result;
+                            });
+                            reader.readAsDataURL(image);
+                            setIsImageUpdated(true);
+                        }}
+                    />
+                </div>
+                <button
+                    disabled={!isImageUpdated}
+                    onClick={() => saveImage(image)}>
+                    Save image
+                </button>
             </div>
         </div>
     );
