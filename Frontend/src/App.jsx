@@ -52,8 +52,8 @@ export default class App extends Component {
                     <Switch>
                         <Route path="/profile" exact>
                             <Profile
-                                userName="Eternity"
-                                email="oleg@gmail.com"
+                                userName="username"
+                                email="email@gmail.com"
                                 imageUrl="https://images8.alphacoders.com/942/942011.png"
                             />
                         </Route>

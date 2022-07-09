@@ -30,6 +30,30 @@ namespace TalkativeWebAPI.Controllers
         }
 
         [HttpPut]
+        [Route("username")]
+        [Authorize(Policy = "Auth")]
+        public async Task<IActionResult> ChangeUsername(ChangeUsernameInput input)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest();
+            }
+
+            string userId = User.Claims.First().Value;
+            ApplicationUser user = _userManager.Users.FirstOrDefault(u => u.Id == userId);
+
+            user.UserName = input.NewUserName;
+
+            IdentityResult result = await _userManager.UpdateAsync(user);
+            if (!result.Succeeded)
+            {
+                return BadRequest(new { Errors = result.Errors });
+            }
+
+            return Ok(new { input.NewUserName });
+        }
+
+        [HttpPut]
         [Route("email")]
         [Authorize(Policy = "Auth")]
         public async Task<IActionResult> ChangeEmail(ChangeEmailInput input)
